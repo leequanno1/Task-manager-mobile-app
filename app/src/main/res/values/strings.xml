@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Task Managerment</string>
+    <string name="begin_day">Ngày bắt đầu...</string>
+    <string name="deadline_day">Ngày hết hạn...</string>
 </resources>
