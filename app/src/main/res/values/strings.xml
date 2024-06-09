@@ -2,4 +2,14 @@
     <string name="app_name">Task Managerment</string>
     <string name="begin_day">Ngày bắt đầu...</string>
     <string name="deadline_day">Ngày hết hạn...</string>
+    <string-array name="notify_at">
+        <item>Không thông báo</item>
+        <item>Trước 1 ngày</item>
+        <item>Trước 1 tiếng</item>
+        <item>Trước 30 phút</item>
+        <item>Trước 15 phút</item>
+        <item>Trước 10 phút</item>
+        <item>Trước 5 phút</item>
+        <item>Tại lúc đến hạn</item>
+    </string-array>
 </resources>

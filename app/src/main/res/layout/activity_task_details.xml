@@ -24,14 +24,6 @@
             android:src="@drawable/baseline_clear"
             android:background="@android:color/transparent"
             android:layout_marginRight="20dp"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hoc bai"
-            android:textSize="30dp"
-            android:inputType="text"
-            android:background="@android:color/transparent"
-            />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -51,18 +43,34 @@
             android:layout_height="match_parent"
             android:paddingVertical="15dp"
             android:background="@drawable/shape_row_container"
+            >
+            <EditText
+                android:id="@+id/taskTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hoc bai"
+                android:textSize="30dp"
+                android:inputType="text"
+                android:background="@android:color/transparent"
+                android:layout_column="1"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="15dp"
+            android:background="@drawable/shape_row_container"
             android:layout_marginBottom="10dp">
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/baseline_edit_note" />
 
             <EditText
-                android:id="@+id/editTextText2"
+                android:id="@+id/taskDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -82,18 +90,31 @@
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/baseline_bookmark" />
 
-            <EditText
-                android:id="@+id/editTextText3"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:ems="10"
-                android:hint="Thêm tag"
-                android:inputType="datetime" />
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/tagFlexbox"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                app:flexWrap="wrap"
+                app:alignItems="center">
+<!--                <TextView-->
+<!--                    android:clickable="true"-->
+<!--                    android:id="@+id/addTags"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:ems="10"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:textSize="18dp"-->
+<!--                    android:paddingLeft="5dp"-->
+<!--                    android:hint="Thêm tag..." />-->
+
+            </com.google.android.flexbox.FlexboxLayout>
         </TableRow>
 
         <TableRow
@@ -105,18 +126,21 @@
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/baseline_more_time" />
 
-            <EditText
-                android:id="@+id/editTextText4"
+            <TextView
+                android:clickable="true"
+                android:id="@+id/beginTime"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
-                android:hint="@string/begin_day"
-                android:inputType="datetime" />
+                android:gravity="center_vertical"
+                android:textSize="18dp"
+                android:paddingLeft="5dp"
+                android:hint="@string/begin_day" />
         </TableRow>
 
         <TableRow
@@ -126,22 +150,54 @@
             android:background="@drawable/shape_row_container"
             android:layout_marginBottom="10dp">
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/baseline_deadline"
-                android:visibility="invisible" />
+            <CheckBox
+                android:id="@+id/chkIsCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:layout_column="0"/>
 
-            <EditText
-                android:id="@+id/editTextText5"
+            <TextView
+                android:clickable="true"
+                android:id="@+id/deadlineTime"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
+                android:gravity="center_vertical"
+                android:textSize="18dp"
+                android:paddingLeft="5dp"
                 android:hint="@string/deadline_day"
-                android:inputType="datetime" />
+                android:layout_column="1"/>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/notifyContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="15dp"
+            android:background="@drawable/shape_row_container"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/baseline_notifications_active" />
+
+            <Spinner
+                android:clickable="true"
+                android:id="@+id/notificationAt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:textSize="18dp"
+                android:paddingLeft="5dp"
+                android:hint="@string/deadline_day"
+                android:layout_column="1"/>
+
         </TableRow>
     </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
