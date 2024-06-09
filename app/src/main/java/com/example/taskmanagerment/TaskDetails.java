@@ -56,8 +56,8 @@ public class TaskDetails extends AppCompatActivity {
         notificationAt = findViewById(R.id.notificationAt);
         tags = new ArrayList<>();
         tags.add(new Tag(1,1,"tag1", Color.parseColor("#ccccaa")));
-        tags.add(new Tag(1,1,"tag2222222222222", Color.parseColor("#ccccbb")));
-        tags.add(new Tag(1,1,"tag3", Color.parseColor("#cccccc")));
+        tags.add(new Tag(2,1,"tag2222222222222", Color.parseColor("#ccccbb")));
+        tags.add(new Tag(3,1,"tag3", Color.parseColor("#cccccc")));
 
         TagListAdapter tagListAdapter = new TagListAdapter(tagFlexBox, this);
         tagListAdapter.setTags(tags);

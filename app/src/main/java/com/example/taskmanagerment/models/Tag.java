@@ -1,6 +1,8 @@
 package com.example.taskmanagerment.models;
 
-public class Tag {
+import java.io.Serializable;
+
+public class Tag implements Serializable {
     private int tagID;
     private int projectID;
     private String tagName;
