@@ -13,6 +13,9 @@
         android:theme="@style/Theme.TaskManagerment"
         tools:targetApi="31">
         <activity
+            android:name=".EditTag"
+            android:exported="true" />
+        <activity
             android:name=".SelectTag"
             android:exported="true" />
         <activity

@@ -1,14 +1,22 @@
 package com.example.taskmanagerment.services;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.taskmanagerment.R;
+import com.example.taskmanagerment.SelectTag;
+import com.example.taskmanagerment.TaskDetails;
 import com.example.taskmanagerment.models.Tag;
+import com.example.taskmanagerment.models.TagList;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
@@ -24,13 +32,19 @@ public class TagListAdapter {
 
     private Context context;
 
+    private TaskDetails taskDetails;
+
+    private Class childActivity;
+    public static final int REQUEST_CODE = 1;
+
     private ViewGroup.MarginLayoutParams layoutParams;
 
-    public TagListAdapter(ViewGroup parent, Context context) {
+    public TagListAdapter(ViewGroup parent, TaskDetails context) {
         this.parent = parent;
         tags = new ArrayList<>();
         defaultChild = null;
         this.context = context;
+        taskDetails = context;
     }
 
     public TagListAdapter(Context context) {
@@ -83,6 +97,8 @@ public class TagListAdapter {
         render();
     }
 
+
+
     private void removeAll () {
         // remove all child
         parent.removeAllViews();
@@ -96,12 +112,16 @@ public class TagListAdapter {
         textView.setTextSize(18f);
         textView.setBackground(context.getResources().getDrawable(R.drawable.tag_background));
         GradientDrawable drawable = (GradientDrawable) textView.getBackground();
-        drawable.setColor(tag.getTagColor());
+        drawable.setColor(Color.parseColor(tag.getTagColor()));
         textView.setLayoutParams(getLayoutParams(16));
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // change activity
+                Intent intent = new Intent(context, childActivity);
+                intent.putExtra("tags", new TagList(tags));
+                taskDetails.startActivityForResult(intent, REQUEST_CODE);
             }
         });
         return textView;
@@ -146,4 +166,7 @@ public class TagListAdapter {
         toast.show();
     }
 
+    public void setChildActivity(Class selectTagClass) {
+        childActivity = selectTagClass;
+    }
 }

@@ -24,7 +24,7 @@ public class TagBuilder {
         return this;
     }
 
-    public TagBuilder setTagColor(int tagColor) {
+    public TagBuilder setTagColor(String tagColor) {
         this.tag.setTagColor(tagColor);
         return this;
     }

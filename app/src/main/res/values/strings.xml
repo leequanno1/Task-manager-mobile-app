@@ -12,4 +12,30 @@
         <item>Trước 5 phút</item>
         <item>Tại lúc đến hạn</item>
     </string-array>
+    <string-array name="color_list">
+        <item>#aaaaaa</item>
+        <item>#aaaabb</item>
+        <item>#aaaacc</item>
+        <item>#aaaadd</item>
+        <item>#aaaaee</item>
+        <item>#aaaaff</item>
+        <item>#aabbaa</item>
+        <item>#aabbbb</item>
+        <item>#aabbcc</item>
+        <item>#aabbdd</item>
+        <item>#aabbee</item>
+        <item>#aabbff</item>
+        <item>#aaccaa</item>
+        <item>#aaccbb</item>
+        <item>#aacccc</item>
+        <item>#aaccdd</item>
+        <item>#aaccee</item>
+        <item>#aaccff</item>
+        <item>#aaddaa</item>
+        <item>#aaddbb</item>
+        <item>#aaddcc</item>
+        <item>#aaddee</item>
+        <item>#aaddff</item>
+        <item>#aaeeaa</item>
+    </string-array>
 </resources>

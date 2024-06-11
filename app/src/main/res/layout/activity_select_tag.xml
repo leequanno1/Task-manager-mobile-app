@@ -18,10 +18,13 @@
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center">
         <ImageButton
+            android:id="@+id/rollBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/baseline_keyboard_backspace"
-            android:background="@android:color/transparent"
             android:layout_marginRight="20dp"/>
     </androidx.appcompat.widget.Toolbar>
 

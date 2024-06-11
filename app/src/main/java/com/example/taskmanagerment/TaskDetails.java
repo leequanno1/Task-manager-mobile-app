@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.lights.LightsManager;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.taskmanagerment.models.Tag;
+import com.example.taskmanagerment.models.TagList;
 import com.example.taskmanagerment.services.TagListAdapter;
 import com.google.android.flexbox.FlexboxLayout;
 
@@ -43,6 +45,8 @@ public class TaskDetails extends AppCompatActivity {
 
     List<Tag> tags;
 
+    TagListAdapter tagListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +59,12 @@ public class TaskDetails extends AppCompatActivity {
         tagFlexBox = findViewById(R.id.tagFlexbox);
         notificationAt = findViewById(R.id.notificationAt);
         tags = new ArrayList<>();
-        tags.add(new Tag(1,1,"tag1", Color.parseColor("#ccccaa")));
-        tags.add(new Tag(2,1,"tag2222222222222", Color.parseColor("#ccccbb")));
-        tags.add(new Tag(3,1,"tag3", Color.parseColor("#cccccc")));
+        tags.add(new Tag(1,1,"tag1", "#aaaaaa"));
+//        tags.add(new Tag(2,1,"tag2222222222222", "#ccccbb"));
 
-        TagListAdapter tagListAdapter = new TagListAdapter(tagFlexBox, this);
+        tagListAdapter = new TagListAdapter(tagFlexBox, TaskDetails.this);
         tagListAdapter.setTags(tags);
+        tagListAdapter.setChildActivity(SelectTag.class);
         tagListAdapter.render();
 
         SpinnerAdapter spinnerAdapter = new ArrayAdapter<>(this,
@@ -86,6 +90,17 @@ public class TaskDetails extends AppCompatActivity {
         });
 
         deadlineTime.addTextChangedListener(deadlineTextChange());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TagListAdapter.REQUEST_CODE && resultCode == RESULT_OK){
+            TagList tagList = (TagList) data.getSerializableExtra("tags");
+            tags.clear();
+            tags.addAll(tagList.getTags());
+            tagListAdapter.modifyDataSetChange();
+        }
     }
 
     private void openDateDialog(TextView textView) {

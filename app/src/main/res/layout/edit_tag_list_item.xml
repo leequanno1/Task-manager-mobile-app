@@ -27,7 +27,10 @@
                 android:text="Text 1"
                 android:checked="true"
                 android:checkMarkTint="@color/black"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <CheckBox
                 android:id="@+id/chkTagSelected"
@@ -41,13 +44,23 @@
                 />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-    <ImageButton
-        android:id="@+id/tagAdjust"
+    <androidx.cardview.widget.CardView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/baseline_edit_note"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:background="@android:color/transparent"/>
+        app:cardCornerRadius="30dp"
+        android:outlineAmbientShadowColor="@android:color/transparent"
+        android:outlineSpotShadowColor="@android:color/transparent">
+        <ImageButton
+            android:id="@+id/tagAdjust"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/baseline_edit_note"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            />
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
