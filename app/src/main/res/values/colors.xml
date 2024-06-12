@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="status_bar_color">#0083d0</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="app_background">#f1f2f4</color>
@@ -12,4 +15,5 @@
     <color name="color7">#ccc</color>
     <color name="color8">#ccc</color>
     <color name="color9">#ccc</color>
+    <color name="blue">#0865cc</color>
 </resources>
