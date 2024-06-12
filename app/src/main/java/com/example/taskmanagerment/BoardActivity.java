@@ -12,11 +12,20 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.Group;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanagerment.models.TaskGroup;
+import com.example.taskmanagerment.services.TaskGroupAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class BoardActivity extends AppCompatActivity {
@@ -24,8 +33,9 @@ public class BoardActivity extends AppCompatActivity {
     private Toolbar boardToolbar;
     private ImageView goBackButton, moreOptionsButtonOfBoard, notificationButtonOfBoard;
     private ImageView filterButtonOfBoard, confirmEditTitleName, closeEnterTitleName;
-
     private EditText boardTitleEdt, filterEdt;
+    private RecyclerView groupHorizontalRecyclerView;
+    private List<TaskGroup> groups;
 
     private boolean isFillerEdtVisibility = false;
 
@@ -165,6 +175,13 @@ public class BoardActivity extends AppCompatActivity {
         confirmEditTitleName = (ImageView) findViewById(R.id.confirm_edit_title_name);
         closeEnterTitleName = (ImageView) findViewById(R.id.close_enter_title_name);
         filterEdt = (EditText) findViewById(R.id.filter_edt);
+        groupHorizontalRecyclerView = (RecyclerView) findViewById(R.id.groupHorizontalRecyclerView);
+        groups = new ArrayList<>();
+        groups.add(new TaskGroup(1,1,"group1", null, 0, 2, new ArrayList<>()));
+        groups.add(new TaskGroup(1,1,"group2", null, 0, 2, new ArrayList<>()));
+        groups.add(new TaskGroup(1,1,"group3", null, 0, 2, new ArrayList<>()));
+        groupHorizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this));
     }
 
     // Method to hide the keyboard

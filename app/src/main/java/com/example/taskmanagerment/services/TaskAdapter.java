@@ -2,7 +2,6 @@ package com.example.taskmanagerment.services;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,14 +20,13 @@ import java.util.Date;
 import java.util.List;
 
 
-public class TaskGroupHolder extends ArrayAdapter<Task> {
+public class TaskAdapter extends ArrayAdapter<Task> {
 
     Context context;
     List<Task> resource;
-
     AppCompatActivity activity;
 
-    public TaskGroupHolder(@NonNull AppCompatActivity context, List<Task> resource) {
+    public TaskAdapter(@NonNull AppCompatActivity context, List<Task> resource) {
         super(context, R.layout.task_group, resource);
         this.context = context;
         this.resource = resource;

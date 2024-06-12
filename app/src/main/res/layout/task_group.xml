@@ -1,104 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="15dp"
     app:cardCornerRadius="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/app_background"
-        android:paddingVertical="15dp"
-        android:paddingHorizontal="10dp">
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="15dp">
+
+        <Button
+            android:id="@+id/addNewGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="+ Add group..."
+            android:textAllCaps="false"
+            android:textColor="#0c66e1"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
         <RelativeLayout
+            android:id="@+id/editGroupContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/editGroupCancel"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/baseline_clear"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleX="1.5"
                 android:scaleY="1.5"
-                android:scaleX="1.5"/>
+                android:src="@drawable/baseline_clear" />
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/editGroupName"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:paddingHorizontal="10dp"
-                android:ems="10"
-                android:textStyle="bold"
                 android:background="@android:color/transparent"
-                android:textSize="25dp"
+                android:ems="10"
                 android:inputType="text"
-                android:text="Name" />
+                android:paddingHorizontal="10dp"
+                android:text="Name"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/editGroupConfirm"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/baseline_check"
+                android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleX="1.5"
                 android:scaleY="1.5"
-                android:scaleX="1.5"/>
+                android:src="@drawable/baseline_check" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/groupNameContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="visible">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/groupName"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="TextView"
                 android:gravity="center_vertical"
-                android:textStyle="bold"
-                android:textSize="25dp"/>
+                android:text="TextView"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/groupMenu"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ellipsis_vertical_solid"
+                android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                />
+                android:src="@drawable/ellipsis_vertical_solid" />
         </RelativeLayout>
+
         <RelativeLayout
+            android:id="@+id/listContentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ListView
+                android:id="@+id/taskListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/task_item"
                 android:background="@android:color/transparent"
                 android:divider="@null"
                 android:dividerHeight="0dp"
-                android:layout_marginBottom="45dp" />
-            <TextView
+                android:paddingBottom="45dp"
+                tools:listitem="@layout/task_item" />
+
+            <Button
+                android:id="@+id/addNewTask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="23dp"
-                android:text="+ Add task"
-                android:textColor="#0c66e1"
-                android:textStyle="bold"
-                android:layout_alignParentBottom="true"
+                android:layout_alignBottom="@+id/taskListView"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="5dp"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+                android:text="+ Add task"
+                android:textAllCaps="false"
+                android:textColor="#0c66e1"
+                android:textSize="23dp"
+                android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

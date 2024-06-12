@@ -1,5 +1,7 @@
 package com.example.taskmanagerment.models;
 
+import java.util.List;
+
 public class TaskGroup {
 
     private int groupId;
@@ -14,13 +16,20 @@ public class TaskGroup {
 
     private int nextGroupId;
 
-    public TaskGroup(int groupId, int projectId, String groupName, String createdAt, int prevGroupId, int nextGroupId) {
+    private List<Task> tasks;
+
+
+    public TaskGroup(int groupId, int projectId, String groupName, String createdAt, int prevGroupId, int nextGroupId, List<Task> tasks) {
         this.groupId = groupId;
         this.projectId = projectId;
         this.groupName = groupName;
         this.createdAt = createdAt;
         this.prevGroupId = prevGroupId;
         this.nextGroupId = nextGroupId;
+        this.tasks = tasks;
+    }
+
+    public TaskGroup() {
     }
 
     public int getGroupId() {
@@ -71,4 +80,11 @@ public class TaskGroup {
         this.nextGroupId = nextGroupId;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 }
