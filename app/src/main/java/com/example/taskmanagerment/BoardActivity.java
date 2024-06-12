@@ -2,38 +2,28 @@ package com.example.taskmanagerment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanagerment.models.Project;
 import com.example.taskmanagerment.models.TaskGroup;
 import com.example.taskmanagerment.services.TaskGroupAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BoardActivity extends AppCompatActivity {
 
-    private Toolbar boardToolbar;
     private ImageView goBackButton, moreOptionsButtonOfBoard, notificationButtonOfBoard;
     private ImageView filterButtonOfBoard, confirmEditTitleName, closeEnterTitleName;
-    private EditText boardTitleEdt, filterEdt;
+    private EditText projectTitleEdt, filterEdt;
     private RecyclerView groupHorizontalRecyclerView;
     private List<TaskGroup> groups;
 
@@ -46,15 +36,15 @@ public class BoardActivity extends AppCompatActivity {
 
         initialComponents();
 
-        setSupportActionBar(boardToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        String projectNameTitle = getProjectDataFromIntent().getProjectName();
+        projectTitleEdt.setText(projectNameTitle.isEmpty() ? "No title name" : projectNameTitle);
 
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isFillerEdtVisibility) {
                     filterEdt.setVisibility(View.GONE);
-                    boardTitleEdt.setVisibility(View.VISIBLE);
+                    projectTitleEdt.setVisibility(View.VISIBLE);
                     filterButtonOfBoard.setVisibility(View.VISIBLE);
 
                     isFillerEdtVisibility = false;
@@ -65,11 +55,11 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-        boardTitleEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        projectTitleEdt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    boardTitleEdt.setBackgroundResource(R.drawable.under_line);
+                    projectTitleEdt.setBackgroundResource(R.drawable.under_line);
 
                     closeEnterTitleName.setVisibility(View.VISIBLE);
                     confirmEditTitleName.setVisibility(View.VISIBLE);
@@ -79,10 +69,10 @@ public class BoardActivity extends AppCompatActivity {
                     notificationButtonOfBoard.setVisibility(View.GONE);
                     moreOptionsButtonOfBoard.setVisibility(View.GONE);
 
-                    boardTitleEdt.post(new Runnable() {
+                    projectTitleEdt.post(new Runnable() {
                         @Override
                         public void run() {
-                            boardTitleEdt.setSelection(boardTitleEdt.getText().length());
+                            projectTitleEdt.setSelection(projectTitleEdt.getText().length());
                         }
                     });
                 }
@@ -93,7 +83,7 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 hideKeyboard();
-                boardTitleEdt.setBackgroundColor(0);
+                projectTitleEdt.setBackgroundColor(0);
 
                 closeEnterTitleName.setVisibility(View.GONE);
                 confirmEditTitleName.setVisibility(View.GONE);
@@ -104,21 +94,21 @@ public class BoardActivity extends AppCompatActivity {
                 moreOptionsButtonOfBoard.setVisibility(View.VISIBLE);
 
                 // Đảm bảo EditText có thể lấy lại tiêu điểm
-                boardTitleEdt.setFocusable(false);
-                boardTitleEdt.setFocusableInTouchMode(false);
+                projectTitleEdt.setFocusable(false);
+                projectTitleEdt.setFocusableInTouchMode(false);
 
                 // Đặt lại tiêu điểm khi EditText được nhấn
-                boardTitleEdt.setOnClickListener(new View.OnClickListener() {
+                projectTitleEdt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boardTitleEdt.setFocusable(true);
-                        boardTitleEdt.setFocusableInTouchMode(true);
-                        boardTitleEdt.requestFocus();
-                        boardTitleEdt.post(new Runnable() {
+                        projectTitleEdt.setFocusable(true);
+                        projectTitleEdt.setFocusableInTouchMode(true);
+                        projectTitleEdt.requestFocus();
+                        projectTitleEdt.post(new Runnable() {
                             @Override
                             public void run() {
                                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                                imm.showSoftInput(boardTitleEdt, InputMethodManager.SHOW_IMPLICIT);
+                                imm.showSoftInput(projectTitleEdt, InputMethodManager.SHOW_IMPLICIT);
                             }
                         });
                     }
@@ -130,10 +120,10 @@ public class BoardActivity extends AppCompatActivity {
         confirmEditTitleName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newTitle = boardTitleEdt.getText().toString();
-                boardTitleEdt.setText(newTitle);
+                String newTitle = projectTitleEdt.getText().toString();
+                projectTitleEdt.setText(newTitle);
                 hideKeyboard();
-                boardTitleEdt.setBackgroundColor(0);
+                projectTitleEdt.setBackgroundColor(0);
 
                 closeEnterTitleName.setVisibility(View.GONE);
                 confirmEditTitleName.setVisibility(View.GONE);
@@ -143,7 +133,7 @@ public class BoardActivity extends AppCompatActivity {
                 notificationButtonOfBoard.setVisibility(View.VISIBLE);
                 moreOptionsButtonOfBoard.setVisibility(View.VISIBLE);
 
-                boardTitleEdt.setFocusable(false);
+                projectTitleEdt.setFocusable(false);
             }
         });
 
@@ -156,19 +146,17 @@ public class BoardActivity extends AppCompatActivity {
                 filterEdt.setVisibility(View.VISIBLE);
                 filterEdt.requestFocus();
 
-                boardTitleEdt.setVisibility(View.GONE);
+                projectTitleEdt.setVisibility(View.GONE);
                 filterButtonOfBoard.setVisibility(View.GONE);
             }
         });
 
 
-
     }
 
     private void initialComponents() {
-        boardToolbar = (Toolbar) findViewById(R.id.board_toolbar);
         goBackButton = (ImageView) findViewById(R.id.go_back_button);
-        boardTitleEdt = (EditText) findViewById(R.id.board_title_edt);
+        projectTitleEdt = (EditText) findViewById(R.id.board_title_edt);
         moreOptionsButtonOfBoard = (ImageView) findViewById(R.id.more_options_button_of_board);
         notificationButtonOfBoard = (ImageView) findViewById(R.id.notification_button_of_board);
         filterButtonOfBoard = (ImageView) findViewById(R.id.filter_button_of_board);
@@ -176,10 +164,11 @@ public class BoardActivity extends AppCompatActivity {
         closeEnterTitleName = (ImageView) findViewById(R.id.close_enter_title_name);
         filterEdt = (EditText) findViewById(R.id.filter_edt);
         groupHorizontalRecyclerView = (RecyclerView) findViewById(R.id.groupHorizontalRecyclerView);
+
         groups = new ArrayList<>();
-        groups.add(new TaskGroup(1,1,"group1", null, 0, 2, new ArrayList<>()));
-        groups.add(new TaskGroup(1,1,"group2", null, 0, 2, new ArrayList<>()));
-        groups.add(new TaskGroup(1,1,"group3", null, 0, 2, new ArrayList<>()));
+        groups.add(new TaskGroup(1, 1, "group1", null, 0, 2, new ArrayList<>()));
+        groups.add(new TaskGroup(1, 1, "group2", null, 0, 2, new ArrayList<>()));
+        groups.add(new TaskGroup(1, 1, "group3", null, 0, 2, new ArrayList<>()));
         groupHorizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this));
     }
@@ -193,4 +182,17 @@ public class BoardActivity extends AppCompatActivity {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    public Project getProjectDataFromIntent() {
+        Bundle bundle = getIntent().getBundleExtra("bundle");
+
+        Project project = null;
+
+        if (bundle != null) {
+            project = (Project) bundle.getSerializable("selectedProject");
+        }
+
+        return project;
+    }
+
 }

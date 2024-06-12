@@ -56,6 +56,19 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/project_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_view_border_bottom_and_backgound"
+        android:elevation="15dp"
+        android:gravity="left"
+        android:padding="14dp"
+        android:text="List of projects"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        app:layout_constraintTop_toBottomOf="@+id/home_toolbar" />
+
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="0dp"
@@ -63,14 +76,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/project_list_title">
 
         <!-- Nội dung khác của bạn ở đây -->
 
         <ListView
             android:id="@+id/board_listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:divider="@null" />
 
         <!-- Overlay View -->
         <View
@@ -125,7 +140,7 @@
         android:background="@drawable/rounded_corner"
         android:elevation="15dp"
         android:padding="8dp"
-        android:text="Board"
+        android:text="Project"
         android:textColor="#000"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/home_board"

@@ -21,7 +21,7 @@
 
         <activity android:name=".CreateNewTaskActivity"/>
 
-        <activity android:name=".CreateNewBoardActivity"/>
+        <activity android:name=".CreateNewProjectActivity"/>
 
         <activity
             android:name=".EditTag"

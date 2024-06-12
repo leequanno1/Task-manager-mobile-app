@@ -4,22 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.taskmanagerment.customlistview.BoardItem;
-import com.example.taskmanagerment.customlistview.CustomListAdapter;
-import com.example.taskmanagerment.customlistview.ItemModel;
+import com.example.taskmanagerment.customlistview.CustomProjectAdapter;
+import com.example.taskmanagerment.database.DatabaseHelper;
+import com.example.taskmanagerment.models.Project;
+import com.example.taskmanagerment.services.ProjectService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private static final int CREATE_PROJECT_REQUEST_CODE = 1;
 
     // Declare components.
     private ImageView searchHomeButton, notificationHomeButton, createNewBoardOrTaskButton;
@@ -34,6 +39,14 @@ public class HomeActivity extends AppCompatActivity {
 
     private boolean isShowOptionForCreateNewBoard = false;
 
+    private DatabaseHelper databaseHelper;
+
+    private CustomProjectAdapter adapter;
+
+    private List<Project> projects;
+
+    private ProjectService projectService;
+
 
     // Called when activity is created, this is used to set up user interface and necessary initialization.
     @Override
@@ -44,23 +57,9 @@ public class HomeActivity extends AppCompatActivity {
         // Call method to initial components.
         initialComponents();
 
-        // Add data to list
-        List<ItemModel> items = new ArrayList<>();
-        items.add(new BoardItem("Board 1"));
-        items.add(new BoardItem("Board 2"));
-        items.add(new BoardItem("Board 3"));
-
-        // Set custom listview for list view.
-        CustomListAdapter adapter = new CustomListAdapter(this, items);
+        projects = projectService.getAllProjects();
+        adapter = new CustomProjectAdapter(this, R.layout.board_item_litview, projects);
         boardListview.setAdapter(adapter);
-
-        // Create intent to received data from create new board view.
-        Intent intent = getIntent();
-        String newBoardName = intent.getStringExtra("boardName");
-        if (newBoardName != null && !newBoardName.isEmpty()) {
-            items.add(new BoardItem(newBoardName));
-            adapter.notifyDataSetChanged();
-        }
 
         // Register context menu for board list view.
         registerForContextMenu(boardListview);
@@ -69,7 +68,13 @@ public class HomeActivity extends AppCompatActivity {
         boardListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Project selectedProject = projects.get(position);
+
                 Intent intent = new Intent(HomeActivity.this, BoardActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("selectedProject", selectedProject);
+
+                intent.putExtra("bundle", bundle);
                 startActivity(intent);
             }
         });
@@ -79,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_PROJECT_REQUEST_CODE);
             }
 
         });
@@ -98,14 +103,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isShowOptionForCreateNewBoard) {
-                    overlayView.setVisibility(View.GONE);
-                    homeTask.setVisibility(View.GONE);
-                    homeBoard.setVisibility(View.GONE);
-                    tvForHomeBoard.setVisibility(View.GONE);
-                    tvForHomeTask.setVisibility(View.GONE);
-                    createNewBoardOrTaskButton.setImageResource(R.drawable.baseline_add_24);
-
-                    isShowOptionForCreateNewBoard = false;
+                    refreshHomeView();
                 } else {
                     overlayView.setVisibility(View.VISIBLE);
                     homeTask.setVisibility(View.VISIBLE);
@@ -132,8 +130,8 @@ public class HomeActivity extends AppCompatActivity {
         homeBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, CreateNewBoardActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, CreateNewProjectActivity.class);
+                startActivityForResult(intent, CREATE_PROJECT_REQUEST_CODE);
             }
         });
 
@@ -153,6 +151,22 @@ public class HomeActivity extends AppCompatActivity {
         tvForHomeBoard = (TextView) findViewById(R.id.tv_for_home_board);
         tvForHomeTask = (TextView) findViewById(R.id.tv_for_home_task);
         boardListview = (ListView) findViewById(R.id.board_listview);
+
+        databaseHelper = new DatabaseHelper(this);
+        projects = new ArrayList<>();
+        projectService = new ProjectService(this);
+    }
+
+    // Method to refresh home view
+    public void refreshHomeView() {
+        overlayView.setVisibility(View.GONE);
+        homeTask.setVisibility(View.GONE);
+        tvForHomeBoard.setVisibility(View.GONE);
+        homeBoard.setVisibility(View.GONE);
+        tvForHomeTask.setVisibility(View.GONE);
+        createNewBoardOrTaskButton.setImageResource(R.drawable.baseline_add_24);
+
+        isShowOptionForCreateNewBoard = false;
     }
 
     // Method to create and show context menu when user on long click to any view.
@@ -161,6 +175,44 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.context_menu_for_board_item, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        assert info != null;
+        int position = info.position;
+        Project selectedProject = projects.get(position);
+
+        if (item.getItemId() == R.id.delete_project) {
+            boolean isDeleted = projectService.deleteProject(selectedProject.getProjectId());
+            if (isDeleted) {
+                Toast.makeText(this, "Project deleted", Toast.LENGTH_SHORT).show();
+                updateProjectData();
+            } else {
+                Toast.makeText(this, "Failed to delete project", Toast.LENGTH_SHORT).show();
+            }
+
+            return true;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CREATE_PROJECT_REQUEST_CODE && resultCode == RESULT_OK) {
+            refreshHomeView();
+            updateProjectData();
+        }
+    }
+
+    private void updateProjectData() {
+        projects = projectService.getAllProjects();
+        adapter.clear();
+        adapter.addAll(projects);
+        adapter.notifyDataSetChanged();
     }
 
 }
