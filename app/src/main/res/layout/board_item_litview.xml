@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:paddingHorizontal="14dp"
     android:paddingVertical="12dp"
-    android:paddingHorizontal="14dp">
+    tools:ignore="HardcodedText">
 
     <View
         android:id="@+id/color_board_item_view"
@@ -22,7 +23,26 @@
         android:paddingHorizontal="10dp"
         android:text="Board name"
         android:textColor="@android:color/black"
-        android:textSize="18sp"
-        tools:ignore="HardcodedText" />
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/id_board_item_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:paddingHorizontal="10dp"
+        android:text="123"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/date_board_item_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:paddingHorizontal="10dp"
+        android:text="2024-06-12"
+        android:visibility="gone" />
 
 </LinearLayout>

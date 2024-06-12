@@ -1,6 +1,8 @@
 package com.example.taskmanagerment.models;
 
-public class Project {
+import java.io.Serializable;
+
+public class Project implements Serializable {
 
     private int projectId;
 
@@ -8,14 +10,11 @@ public class Project {
 
     private String createdAt;
 
-    private int firstGroupId;
 
-
-    public Project(int projectId, String projectName, String createdAt, int firstGroupId) {
+    public Project(int projectId, String projectName, String createdAt) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.createdAt = createdAt;
-        this.firstGroupId = firstGroupId;
     }
 
     public int getProjectId() {
@@ -42,12 +41,5 @@ public class Project {
         this.createdAt = createdAt;
     }
 
-    public int getFirstGroupId() {
-        return firstGroupId;
-    }
-
-    public void setFirstGroupId(int firstGroupId) {
-        this.firstGroupId = firstGroupId;
-    }
 
 }
