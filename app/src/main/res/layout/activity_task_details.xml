@@ -18,12 +18,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center">
-        <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/baseline_clear"
-            android:background="@android:color/transparent"
-            android:layout_marginRight="20dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/taskDetailCancel"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/baseline_clear"
+                android:background="@android:color/transparent"
+                android:scaleX="1.25"
+                android:scaleY="1.25"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Some text"
+                android:gravity="center"/>
+            <ImageButton
+                android:id="@+id/taskDetailConfirm"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/baseline_check"
+                android:background="@android:color/transparent"
+                android:scaleX="1.25"
+                android:scaleY="1.25"
+                android:layout_marginRight="20dp"/>
+        </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -101,18 +122,9 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 app:flexWrap="wrap"
                 app:alignItems="center">
-<!--                <TextView-->
-<!--                    android:clickable="true"-->
-<!--                    android:id="@+id/addTags"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:ems="10"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:textSize="18dp"-->
-<!--                    android:paddingLeft="5dp"-->
-<!--                    android:hint="Thêm tag..." />-->
 
             </com.google.android.flexbox.FlexboxLayout>
         </TableRow>
@@ -152,9 +164,10 @@
 
             <CheckBox
                 android:id="@+id/chkIsCompleted"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"
+                android:visibility="visible"
+                android:layout_gravity="center"
                 android:layout_column="0"/>
 
             <TextView

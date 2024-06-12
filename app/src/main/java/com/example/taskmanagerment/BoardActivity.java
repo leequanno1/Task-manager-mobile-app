@@ -21,10 +21,12 @@ import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanagerment.models.Task;
 import com.example.taskmanagerment.models.TaskGroup;
 import com.example.taskmanagerment.services.TaskGroupAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -160,9 +162,6 @@ public class BoardActivity extends AppCompatActivity {
                 filterButtonOfBoard.setVisibility(View.GONE);
             }
         });
-
-
-
     }
 
     private void initialComponents() {
@@ -177,9 +176,11 @@ public class BoardActivity extends AppCompatActivity {
         filterEdt = (EditText) findViewById(R.id.filter_edt);
         groupHorizontalRecyclerView = (RecyclerView) findViewById(R.id.groupHorizontalRecyclerView);
         groups = new ArrayList<>();
-        groups.add(new TaskGroup(1,1,"group1", null, 0, 2, new ArrayList<>()));
-        groups.add(new TaskGroup(1,1,"group2", null, 0, 2, new ArrayList<>()));
-        groups.add(new TaskGroup(1,1,"group3", null, 0, 2, new ArrayList<>()));
+        List<Task> ta1 = new ArrayList<>();
+        ta1.add(new Task(100,100,"asdkjasd",new Date(),new Date(),new Date(),"", ""));
+        groups.add(new TaskGroup(1,1,"group1", null, ta1));
+        groups.add(new TaskGroup(1,1,"group2", null, new ArrayList<>()));
+        groups.add(new TaskGroup(1,1,"group3", null, new ArrayList<>()));
         groupHorizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this));
     }
@@ -192,5 +193,32 @@ public class BoardActivity extends AppCompatActivity {
             view = new View(this);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 ){
+            if(resultCode == RESULT_CANCELED) {
+                // doing nothing...
+            }
+            if(resultCode == RESULT_OK) {
+                // find the group has id == ? and task has id = ? and replace it.
+                Task task = (Task) data.getSerializableExtra("task");
+                replaceSameIDTask(task);
+            }
+        }
+    }
+
+    private void replaceSameIDTask(Task task) {
+        for(int i = 0; i < groups.size(); i++) {
+            if(groups.get(i).getGroupId() == task.getGroupID()){
+                for(int j = 0; j < groups.get(i).getTasks().size(); j++) {
+                    if(groups.get(i).getTasks().get(j).getTaskID() == task.getTaskID()){
+                        groups.get(i).getTasks().set(j,task);
+                    }
+                }
+            }
+        }
     }
 }

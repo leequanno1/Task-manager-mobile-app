@@ -1,6 +1,7 @@
 package com.example.taskmanagerment.customlistview;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -9,20 +10,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanagerment.R;
 
 public class TaskGroupViewHolder extends RecyclerView.ViewHolder {
 
-    RelativeLayout editGroupContainer;
-    RelativeLayout groupNameContainer;
-    RelativeLayout listContentContainer;
-    ImageButton editGroupCancel, editGroupConfirm, groupMenu;
-    EditText editGroupName;
+    ViewGroup editGroupContainer;
+    ViewGroup groupNameContainer;
+    ViewGroup listContentContainer;
+    ImageButton editGroupCancel;
+    ImageButton editGroupConfirm;
+    ImageButton groupMenu;
+    ImageButton addNewTaskConfirm;
+    ImageButton addNewTaskCancel;
+    EditText editGroupName, newTaskName;
     TextView groupName;
     ListView taskListView;
-
+    CardView newTaskNameContainer;
     Button addNewGroup, addNewTask;
     public TaskGroupViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -37,30 +43,35 @@ public class TaskGroupViewHolder extends RecyclerView.ViewHolder {
         listContentContainer = itemView.findViewById(R.id.listContentContainer);
         taskListView = itemView.findViewById(R.id.taskListView);
         addNewTask = itemView.findViewById(R.id.addNewTask);
+        newTaskNameContainer = itemView.findViewById(R.id.newTaskNameContainer);
+        addNewTaskConfirm = itemView.findViewById(R.id.addNewTaskConfirm);
+        addNewTaskCancel = itemView.findViewById(R.id.addNewTaskCancel);
+        newTaskName = itemView.findViewById(R.id.newTaskName);
     }
 
-    public RelativeLayout getEditGroupContainer() {
+
+    public ViewGroup getEditGroupContainer() {
         return editGroupContainer;
     }
 
-    public Button getAddNewGroup() {
-        return addNewGroup;
-    }
-
-    public void setAddNewGroup(Button addNewGroup) {
-        this.addNewGroup = addNewGroup;
-    }
-
-    public void setEditGroupContainer(RelativeLayout editGroupContainer) {
+    public void setEditGroupContainer(ViewGroup editGroupContainer) {
         this.editGroupContainer = editGroupContainer;
     }
 
-    public RelativeLayout getGroupNameContainer() {
+    public ViewGroup getGroupNameContainer() {
         return groupNameContainer;
     }
 
-    public void setGroupNameContainer(RelativeLayout groupNameContainer) {
+    public void setGroupNameContainer(ViewGroup groupNameContainer) {
         this.groupNameContainer = groupNameContainer;
+    }
+
+    public ViewGroup getListContentContainer() {
+        return listContentContainer;
+    }
+
+    public void setListContentContainer(ViewGroup listContentContainer) {
+        this.listContentContainer = listContentContainer;
     }
 
     public ImageButton getEditGroupCancel() {
@@ -87,12 +98,36 @@ public class TaskGroupViewHolder extends RecyclerView.ViewHolder {
         this.groupMenu = groupMenu;
     }
 
+    public ImageButton getAddNewTaskConfirm() {
+        return addNewTaskConfirm;
+    }
+
+    public void setAddNewTaskConfirm(ImageButton addNewTaskConfirm) {
+        this.addNewTaskConfirm = addNewTaskConfirm;
+    }
+
+    public ImageButton getAddNewTaskCancel() {
+        return addNewTaskCancel;
+    }
+
+    public void setAddNewTaskCancel(ImageButton addNewTaskCancel) {
+        this.addNewTaskCancel = addNewTaskCancel;
+    }
+
     public EditText getEditGroupName() {
         return editGroupName;
     }
 
     public void setEditGroupName(EditText editGroupName) {
         this.editGroupName = editGroupName;
+    }
+
+    public EditText getNewTaskName() {
+        return newTaskName;
+    }
+
+    public void setNewTaskName(EditText newTaskName) {
+        this.newTaskName = newTaskName;
     }
 
     public TextView getGroupName() {
@@ -111,19 +146,27 @@ public class TaskGroupViewHolder extends RecyclerView.ViewHolder {
         this.taskListView = taskListView;
     }
 
+    public CardView getNewTaskNameContainer() {
+        return newTaskNameContainer;
+    }
+
+    public void setNewTaskNameContainer(CardView newTaskNameContainer) {
+        this.newTaskNameContainer = newTaskNameContainer;
+    }
+
+    public Button getAddNewGroup() {
+        return addNewGroup;
+    }
+
+    public void setAddNewGroup(Button addNewGroup) {
+        this.addNewGroup = addNewGroup;
+    }
+
     public Button getAddNewTask() {
         return addNewTask;
     }
 
     public void setAddNewTask(Button addNewTask) {
         this.addNewTask = addNewTask;
-    }
-
-    public RelativeLayout getListContentContainer() {
-        return listContentContainer;
-    }
-
-    public void setListContentContainer(RelativeLayout listContentContainer) {
-        this.listContentContainer = listContentContainer;
     }
 }

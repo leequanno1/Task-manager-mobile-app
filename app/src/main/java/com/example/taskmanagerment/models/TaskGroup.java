@@ -1,5 +1,6 @@
 package com.example.taskmanagerment.models;
 
+import java.util.Date;
 import java.util.List;
 
 public class TaskGroup {
@@ -10,26 +11,19 @@ public class TaskGroup {
 
     private String groupName;
 
-    private String createdAt;
-
-    private int prevGroupId;
-
-    private int nextGroupId;
+    private Date createdAt;
 
     private List<Task> tasks;
 
+    public TaskGroup() {
+    }
 
-    public TaskGroup(int groupId, int projectId, String groupName, String createdAt, int prevGroupId, int nextGroupId, List<Task> tasks) {
+    public TaskGroup(int groupId, int projectId, String groupName, Date createdAt, List<Task> tasks) {
         this.groupId = groupId;
         this.projectId = projectId;
         this.groupName = groupName;
         this.createdAt = createdAt;
-        this.prevGroupId = prevGroupId;
-        this.nextGroupId = nextGroupId;
         this.tasks = tasks;
-    }
-
-    public TaskGroup() {
     }
 
     public int getGroupId() {
@@ -56,28 +50,12 @@ public class TaskGroup {
         this.groupName = groupName;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public int getPrevGroupId() {
-        return prevGroupId;
-    }
-
-    public void setPrevGroupId(int prevGroupId) {
-        this.prevGroupId = prevGroupId;
-    }
-
-    public int getNextGroupId() {
-        return nextGroupId;
-    }
-
-    public void setNextGroupId(int nextGroupId) {
-        this.nextGroupId = nextGroupId;
     }
 
     public List<Task> getTasks() {

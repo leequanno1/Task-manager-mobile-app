@@ -26,7 +26,7 @@ public class TagListAdapter {
 
     private ViewGroup parent;
 
-    private View defaultChild;
+    private TextView defaultChild;
 
     private List<Tag> tags;
 
@@ -42,16 +42,16 @@ public class TagListAdapter {
     public TagListAdapter(ViewGroup parent, TaskDetails context) {
         this.parent = parent;
         tags = new ArrayList<>();
-        defaultChild = null;
         this.context = context;
         taskDetails = context;
+        defaultChild = generateTagPlaceholder("Add tags...");
     }
 
     public TagListAdapter(Context context) {
         parent = null;
         tags = new ArrayList<>();
-        defaultChild = null;
         this.context = context;
+        defaultChild = generateTagPlaceholder("Add tags...");
     }
 
     public ViewGroup getParent() {
@@ -74,16 +74,13 @@ public class TagListAdapter {
         return defaultChild;
     }
 
-    public void setDefaultChild(View defaultChild) {
+    public void setDefaultChild(TextView defaultChild) {
         this.defaultChild = defaultChild;
     }
 
     public void render() {
         if (tags.isEmpty()) {
-            if(defaultChild != null) {
-                // render default child
-                parent.addView(defaultChild);
-            }
+            parent.addView(defaultChild);
         }else {
             // render tags
             for (TextView textView : generateTextViewTagList(tags)) {
@@ -96,8 +93,6 @@ public class TagListAdapter {
         removeAll();
         render();
     }
-
-
 
     private void removeAll () {
         // remove all child
@@ -165,6 +160,26 @@ public class TagListAdapter {
         toast.setText(tags.size() + "");
         toast.show();
     }
+
+    private TextView generateTagPlaceholder(String placeholder) {
+        TextView textView = new TextView(context);
+        textView.setText(placeholder);
+        textView.setPadding(20,20,20,20);
+        textView.setTextSize(18f);
+        textView.setLayoutParams(getLayoutParams(16));
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // change activity
+                Intent intent = new Intent(context, childActivity);
+                intent.putExtra("tags", new TagList(tags));
+                taskDetails.startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
+        return textView;
+    }
+
 
     public void setChildActivity(Class selectTagClass) {
         childActivity = selectTagClass;

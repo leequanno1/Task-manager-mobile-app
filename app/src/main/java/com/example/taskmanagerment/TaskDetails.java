@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import android.widget.TimePicker;
 
 import com.example.taskmanagerment.models.Tag;
 import com.example.taskmanagerment.models.TagList;
+import com.example.taskmanagerment.models.Task;
 import com.example.taskmanagerment.services.TagListAdapter;
 import com.google.android.flexbox.FlexboxLayout;
 
@@ -39,6 +42,8 @@ public class TaskDetails extends AppCompatActivity {
 
     FlexboxLayout tagFlexBox;
 
+    ViewGroup notifyContainer;
+
     CheckBox chkIsCompleted;
 
     Spinner notificationAt;
@@ -46,6 +51,9 @@ public class TaskDetails extends AppCompatActivity {
     List<Tag> tags;
 
     TagListAdapter tagListAdapter;
+    ImageButton taskDetailCancel, taskDetailConfirm;
+    Intent intent;
+    Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +66,26 @@ public class TaskDetails extends AppCompatActivity {
         chkIsCompleted = findViewById(R.id.chkIsCompleted);
         tagFlexBox = findViewById(R.id.tagFlexbox);
         notificationAt = findViewById(R.id.notificationAt);
-        tags = new ArrayList<>();
-        tags.add(new Tag(1,1,"tag1", "#aaaaaa"));
-//        tags.add(new Tag(2,1,"tag2222222222222", "#ccccbb"));
+        taskDetailCancel = findViewById(R.id.taskDetailCancel);
+        taskDetailConfirm = findViewById(R.id.taskDetailConfirm);
+        notifyContainer = findViewById(R.id.notifyContainer);
 
+        intent = getIntent();
+        task = (Task) intent.getSerializableExtra("task");
+        taskTile.setText(task.getTaskName());
+        taskDescription.setText(task.getDescription());
+        // query get selected tag list by taskID
+        if(task.getCreatedAt() != null) {
+            beginTime.setText(dateFormat(task.getCreatedAt()));
+        }
+        if(task.getDeadline() != null) {
+            deadlineTime.setText(dateFormat(task.getDeadline()));
+        }
+        if(!deadlineTime.getText().toString().isEmpty()) {
+            notifyContainer.setVisibility(View.VISIBLE);
+        }
+
+        tags = new ArrayList<>();
         tagListAdapter = new TagListAdapter(tagFlexBox, TaskDetails.this);
         tagListAdapter.setTags(tags);
         tagListAdapter.setChildActivity(SelectTag.class);
@@ -90,6 +114,13 @@ public class TaskDetails extends AppCompatActivity {
         });
 
         deadlineTime.addTextChangedListener(deadlineTextChange());
+
+        taskDetailCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override

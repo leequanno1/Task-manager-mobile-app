@@ -46,7 +46,7 @@ public class TagListViewAdapter extends ArrayAdapter<Tag> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.edit_tag_list_item, parent, false);
         }
 
-        RelativeLayout tagContainer = convertView.findViewById(R.id.tagContainer);
+        ViewGroup tagContainer = convertView.findViewById(R.id.tagContainer);
         TextView tagName = convertView.findViewById(R.id.tagName);
         CheckBox chkTagSelected = convertView.findViewById(R.id.chkTagSelected);
         ImageButton tagAdjust = convertView.findViewById(R.id.tagAdjust);

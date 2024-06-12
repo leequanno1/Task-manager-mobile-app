@@ -2,6 +2,7 @@ package com.example.taskmanagerment.services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -27,7 +28,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
     AppCompatActivity activity;
 
     public TaskAdapter(@NonNull AppCompatActivity context, List<Task> resource) {
-        super(context, R.layout.task_group, resource);
+        super(context, R.layout.task_item, resource);
         this.context = context;
         this.resource = resource;
         this.activity = context;
@@ -37,18 +38,24 @@ public class TaskAdapter extends ArrayAdapter<Task> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Task task = getItem(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.task_item, parent, false);
+        }
         LinearLayout taskItem = convertView.findViewById(R.id.taskItem);
         LinearLayout beginTimeContainer = convertView.findViewById(R.id.beginTimeContainer);
         LinearLayout deadlineTimeContainer = convertView.findViewById(R.id.deadlineTimeContainer);
         TextView beginTime = convertView.findViewById(R.id.beginTime);
         TextView deadlineTime = convertView.findViewById(R.id.deadlineTime);
+        TextView taskName = convertView.findViewById(R.id.taskName);
+
+        taskName.setText(task.getTaskName());
 
         // hide start date if null
         if (task.getCreatedAt() != null) {
             beginTimeContainer.setVisibility(View.VISIBLE);
             beginTime.setText(task.getCreatedAt().toString());
         }else {
-            beginTime.setVisibility(View.GONE);
+            beginTimeContainer.setVisibility(View.GONE);
         }
         // hide end date if null
         if (task.getDeadline() != null) {
@@ -63,7 +70,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 deadlineTimeContainer.setBackgroundColor(context.getResources().getColor(R.color.color3));
             }
         }else {
-            beginTime.setVisibility(View.GONE);
+            deadlineTimeContainer.setVisibility(View.GONE);
         }
 
         // task click event
