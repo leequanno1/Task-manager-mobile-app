@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.example.taskmanagerment.database.DatabaseHelper;
 import com.example.taskmanagerment.models.Project;
@@ -16,8 +17,10 @@ import java.util.Locale;
 
 public class ProjectService {
     private DatabaseHelper databaseHelper;
+    private Context context;
 
     public ProjectService(Context context) {
+        this.context = context;
         databaseHelper = new DatabaseHelper(context);
     }
 
@@ -29,11 +32,10 @@ public class ProjectService {
 
         ContentValues values = new ContentValues();
         values.put("ProjectName", projectName);
-        values.put("CreatedAt", currentDateTime);
+//        values.put("CreatedAt", currentDateTime);
 
         long projectId = db.insert("Project", null, values);
         db.close();
-
         return projectId;
     }
 

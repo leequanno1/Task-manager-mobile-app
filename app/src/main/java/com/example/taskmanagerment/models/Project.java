@@ -10,7 +10,6 @@ public class Project implements Serializable {
 
     private String createdAt;
 
-
     public Project(int projectId, String projectName, String createdAt) {
         this.projectId = projectId;
         this.projectName = projectName;

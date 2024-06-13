@@ -165,12 +165,8 @@ public class BoardActivity extends AppCompatActivity {
         filterEdt = (EditText) findViewById(R.id.filter_edt);
         groupHorizontalRecyclerView = (RecyclerView) findViewById(R.id.groupHorizontalRecyclerView);
 
+        // gáng kết quả truy vấn vào đây
         groups = new ArrayList<>();
-        List<Task> ta1 = new ArrayList<>();
-        ta1.add(new Task(100,100,"asdkjasd",new Date(),new Date(),new Date(),"", ""));
-        groups.add(new TaskGroup(1,1,"group1", null, ta1));
-        groups.add(new TaskGroup(1,1,"group2", null, new ArrayList<>()));
-        groups.add(new TaskGroup(1,1,"group3", null, new ArrayList<>()));
         groupHorizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this));
     }

@@ -58,6 +58,7 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
                 }
             });
 
+            // Thêm Group
             holder.getEditGroupConfirm().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -66,6 +67,7 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
                         // add new group to database here
                         // ->
                         int groupID = 0;
+                        // thêm taskgroup vào datebase rồi gán vào đây
                         groups.add(new TaskGroup(groupID,1,holder.getEditGroupName().getText().toString(),null, new ArrayList<>()));
 
                         holder.getGroupNameContainer().setVisibility(View.VISIBLE);
@@ -96,6 +98,7 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
             }
         });
 
+        // Thêm new Task
         holder.getAddNewTaskConfirm().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +106,8 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
                     holder.getNewTaskNameContainer().setVisibility(View.GONE);
                     holder.getAddNewTask().setVisibility(View.VISIBLE);
                     int groupID = groups.get(position).getGroupId();
+                    // Thêm vào datebase và gán vào đây
+                    // ->
                     groups.get(position).getTasks().add(new Task(100,groupID, holder.getNewTaskName().getText().toString(), null, null, null, "", ""));
                     notifyDataSetChanged();
                 }
