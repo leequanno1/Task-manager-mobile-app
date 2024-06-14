@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/search_toolbar" />
 
     <ListView
-        android:id="@+id/result_searches_listview"
+        android:id="@+id/result_search_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null"

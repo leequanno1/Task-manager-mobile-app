@@ -24,7 +24,9 @@ import java.util.List;
 public class TaskAdapter extends ArrayAdapter<Task> {
 
     Context context;
+
     List<Task> resource;
+
     AppCompatActivity activity;
 
     public TaskAdapter(@NonNull AppCompatActivity context, List<Task> resource) {
@@ -42,6 +44,8 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.task_item, parent, false);
         }
         LinearLayout taskItem = convertView.findViewById(R.id.taskItem);
+        activity.registerForContextMenu(taskItem);
+
         LinearLayout beginTimeContainer = convertView.findViewById(R.id.beginTimeContainer);
         LinearLayout deadlineTimeContainer = convertView.findViewById(R.id.deadlineTimeContainer);
         TextView beginTime = convertView.findViewById(R.id.beginTime);
@@ -83,8 +87,11 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             }
         });
 
+
         return convertView;
     }
+
+
 
 
 }

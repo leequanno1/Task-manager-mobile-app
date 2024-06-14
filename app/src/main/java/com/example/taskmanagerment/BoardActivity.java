@@ -3,10 +3,17 @@ package com.example.taskmanagerment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,7 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskmanagerment.models.Task;
 import com.example.taskmanagerment.models.Project;
 import com.example.taskmanagerment.models.TaskGroup;
+import com.example.taskmanagerment.services.ProjectService;
+import com.example.taskmanagerment.services.TaskAdapter;
 import com.example.taskmanagerment.services.TaskGroupAdapter;
+import com.example.taskmanagerment.services.TaskGroupService;
+import com.example.taskmanagerment.services.TaskService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,12 +35,23 @@ import java.util.List;
 public class BoardActivity extends AppCompatActivity {
 
     private ImageView goBackButton, moreOptionsButtonOfBoard, notificationButtonOfBoard;
+
     private ImageView filterButtonOfBoard, confirmEditTitleName, closeEnterTitleName;
+
     private EditText projectTitleEdt, filterEdt;
+
     private RecyclerView groupHorizontalRecyclerView;
+
     private List<TaskGroup> groups;
 
     private boolean isFillerEdtVisibility = false;
+
+    private ProjectService projectService;
+
+    private TaskGroupService taskGroupService;
+
+    private TaskService taskService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +62,13 @@ public class BoardActivity extends AppCompatActivity {
 
         String projectNameTitle = getProjectDataFromIntent().getProjectName();
         projectTitleEdt.setText(projectNameTitle.isEmpty() ? "No title name" : projectNameTitle);
+
+        int projectID = getProjectDataFromIntent().getProjectId();
+        // gáng kết quả truy vấn vào đây
+        groups = taskGroupService.getTaskGroupsByProjectId(projectID);
+        groupHorizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this, projectID));
+
 
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,19 +152,26 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String newTitle = projectTitleEdt.getText().toString();
-                projectTitleEdt.setText(newTitle);
-                hideKeyboard();
-                projectTitleEdt.setBackgroundColor(0);
 
-                closeEnterTitleName.setVisibility(View.GONE);
-                confirmEditTitleName.setVisibility(View.GONE);
+                if (!newTitle.isEmpty()) {
+                    if (projectService.updateProjectNameById(projectID, newTitle)) {
+                        projectTitleEdt.setText(newTitle);
 
-                goBackButton.setVisibility(View.VISIBLE);
-                filterButtonOfBoard.setVisibility(View.VISIBLE);
-                notificationButtonOfBoard.setVisibility(View.VISIBLE);
-                moreOptionsButtonOfBoard.setVisibility(View.VISIBLE);
+                        hideKeyboard();
+                        projectTitleEdt.setBackgroundColor(0);
 
-                projectTitleEdt.setFocusable(false);
+                        closeEnterTitleName.setVisibility(View.GONE);
+                        confirmEditTitleName.setVisibility(View.GONE);
+
+                        goBackButton.setVisibility(View.VISIBLE);
+                        filterButtonOfBoard.setVisibility(View.VISIBLE);
+                        notificationButtonOfBoard.setVisibility(View.VISIBLE);
+                        moreOptionsButtonOfBoard.setVisibility(View.VISIBLE);
+
+                        projectTitleEdt.setFocusable(false);
+                    }
+                }
+
             }
         });
 
@@ -156,19 +192,21 @@ public class BoardActivity extends AppCompatActivity {
 
     private void initialComponents() {
         goBackButton = (ImageView) findViewById(R.id.go_back_button);
-        projectTitleEdt = (EditText) findViewById(R.id.board_title_edt);
         moreOptionsButtonOfBoard = (ImageView) findViewById(R.id.more_options_button_of_board);
         notificationButtonOfBoard = (ImageView) findViewById(R.id.notification_button_of_board);
         filterButtonOfBoard = (ImageView) findViewById(R.id.filter_button_of_board);
         confirmEditTitleName = (ImageView) findViewById(R.id.confirm_edit_title_name);
         closeEnterTitleName = (ImageView) findViewById(R.id.close_enter_title_name);
+
+        projectTitleEdt = (EditText) findViewById(R.id.board_title_edt);
         filterEdt = (EditText) findViewById(R.id.filter_edt);
+
         groupHorizontalRecyclerView = (RecyclerView) findViewById(R.id.groupHorizontalRecyclerView);
 
-        // gáng kết quả truy vấn vào đây
-        groups = new ArrayList<>();
-        groupHorizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this));
+        projectService = new ProjectService(BoardActivity.this);
+        taskGroupService = new TaskGroupService(BoardActivity.this);
+        taskGroupService = new TaskGroupService(BoardActivity.this);
+        taskService = new TaskService(BoardActivity.this);
     }
 
     // Method to hide the keyboard
@@ -184,11 +222,11 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 ){
-            if(resultCode == RESULT_CANCELED) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_CANCELED) {
                 // doing nothing...
             }
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 // find the group has id == ? and task has id = ? and replace it.
                 Task task = (Task) data.getSerializableExtra("task");
                 replaceSameIDTask(task);
@@ -197,16 +235,17 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void replaceSameIDTask(Task task) {
-        for(int i = 0; i < groups.size(); i++) {
-            if(groups.get(i).getGroupId() == task.getGroupID()){
-                for(int j = 0; j < groups.get(i).getTasks().size(); j++) {
-                    if(groups.get(i).getTasks().get(j).getTaskID() == task.getTaskID()){
-                        groups.get(i).getTasks().set(j,task);
+        for (int i = 0; i < groups.size(); i++) {
+            if (groups.get(i).getGroupId() == task.getGroupID()) {
+                for (int j = 0; j < groups.get(i).getTasks().size(); j++) {
+                    if (groups.get(i).getTasks().get(j).getTaskID() == task.getTaskID()) {
+                        groups.get(i).getTasks().set(j, task);
                     }
                 }
             }
         }
     }
+
     public Project getProjectDataFromIntent() {
         Bundle bundle = getIntent().getBundleExtra("bundle");
 
@@ -218,5 +257,41 @@ public class BoardActivity extends AppCompatActivity {
 
         return project;
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+
+        if (v.getId() == R.id.taskItem) {
+            inflater.inflate(R.menu.context_menu_for_delete_task_item, menu);
+        }
+
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.delete_task_item) {
+            TaskGroupAdapter taskGroupAdapter = (TaskGroupAdapter) groupHorizontalRecyclerView.getAdapter();
+            Toast.makeText(BoardActivity.this, taskGroupAdapter.getSelectedTaskID() + " ", Toast.LENGTH_SHORT).show();
+            taskService.deleteTask(taskGroupAdapter.getSelectedTaskID());
+
+            for (int i = 0; i < groups.size(); i++) {
+                if (groups.get(i).getGroupId() == taskGroupAdapter.getSelectedGroupID()) {
+                    for (int j = 0; j < groups.get(i).getTasks().size(); j++) {
+                        if (groups.get(i).getTasks().get(j).getTaskID() == taskGroupAdapter.getSelectedTaskID()) {
+                            groups.get(i).getTasks().remove(j);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            taskGroupAdapter.notifyDataSetChanged();
+        }
+
+        return true;
+    }
+
 
 }

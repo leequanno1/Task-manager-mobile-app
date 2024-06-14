@@ -4,16 +4,27 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Task implements Serializable {
+
     private int taskID;
+
     private int groupID;
+
     private String taskName;
+
     private Date createdAt;
+
     private Date deadline;
+
     private Date completedAt;
+
     private String description;
+
     private String imageURL;
 
-    public Task(int taskID, int groupID, String taskName, Date createdAt, Date deadline, Date completedAt, String description, String imageURL) {
+    private Date notifyWhen;
+
+
+    public Task(int taskID, int groupID, String taskName, Date createdAt, Date deadline, Date completedAt, String description, String imageURL, Date notifyWhen) {
         this.taskID = taskID;
         this.groupID = groupID;
         this.taskName = taskName;
@@ -22,6 +33,7 @@ public class Task implements Serializable {
         this.completedAt = completedAt;
         this.description = description;
         this.imageURL = imageURL;
+        this.notifyWhen = notifyWhen;
     }
 
     public Task() {
@@ -89,5 +101,13 @@ public class Task implements Serializable {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public Date getNotifyWhen() {
+        return notifyWhen;
+    }
+
+    public void setNotifyWhen(Date notifyWhen) {
+        this.notifyWhen = notifyWhen;
     }
 }

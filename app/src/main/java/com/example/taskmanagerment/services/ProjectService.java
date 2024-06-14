@@ -134,4 +134,17 @@ public class ProjectService {
         return exists;
     }
 
+    // Phương thức cập nhật tên project dựa vào ID
+    public boolean updateProjectNameById(long projectId, String newName) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("ProjectName", newName);
+
+        int rowsAffected = db.update("Project", values, "ProjectID=?", new String[]{String.valueOf(projectId)});
+        db.close();
+
+        return rowsAffected > 0;
+    }
+
 }

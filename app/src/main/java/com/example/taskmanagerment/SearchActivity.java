@@ -2,6 +2,8 @@ package com.example.taskmanagerment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -59,6 +61,25 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        // Set up TextWatcher for search EditText
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Not used in this implementation
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Trigger search on text change
+                performSearch(); // Perform search without passing searchTerm
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not used in this implementation
+            }
+        });
+
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -90,7 +111,7 @@ public class SearchActivity extends AppCompatActivity {
     private void initialComponents() {
         goBackButton = (ImageView) findViewById(R.id.go_back_button);
         searchEditText = (EditText) findViewById(R.id.search_edit_text);
-        resultSearchesListview = (ListView) findViewById(R.id.result_searches_listview);
+        resultSearchesListview = (ListView) findViewById(R.id.result_search_listview);
 
         projects = new ArrayList<>();
         projectService = new ProjectService(this);
@@ -98,10 +119,12 @@ public class SearchActivity extends AppCompatActivity {
 
     private void performSearch() {
         String searchTerm = searchEditText.getText().toString();
-        List<Project> searchResults = projectService.getProjectsByName(searchTerm);
-        adapter.clear();
-        adapter.addAll(searchResults);
-        adapter.notifyDataSetChanged();
+        if (!searchTerm.isEmpty()) {
+            List<Project> searchResults = projectService.getProjectsByName(searchTerm);
+            adapter.clear();
+            adapter.addAll(searchResults);
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }
