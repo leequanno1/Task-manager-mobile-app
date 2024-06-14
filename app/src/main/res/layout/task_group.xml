@@ -170,7 +170,7 @@
                 android:paddingVertical="5dp"
                 android:text="+ Add task"
                 android:textAllCaps="false"
-                android:textColor="#0c66e1"
+                android:textColor="@color/blue_primary"
                 android:textSize="23dp"
                 android:textStyle="bold" />
         </LinearLayout>

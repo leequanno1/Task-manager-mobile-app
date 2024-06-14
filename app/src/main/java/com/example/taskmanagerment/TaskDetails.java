@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.lights.LightsManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ import java.util.List;
 public class TaskDetails extends AppCompatActivity {
 
     EditText taskTile, taskDescription;
-    TextView beginTime, deadlineTime;
+    TextView beginTime, deadlineTime, addBackgroundImage;
 
     FlexboxLayout tagFlexBox;
 
@@ -54,6 +56,7 @@ public class TaskDetails extends AppCompatActivity {
     ImageButton taskDetailCancel, taskDetailConfirm;
     Intent intent;
     Task task;
+    ImageView backgroundImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +72,13 @@ public class TaskDetails extends AppCompatActivity {
         taskDetailCancel = findViewById(R.id.taskDetailCancel);
         taskDetailConfirm = findViewById(R.id.taskDetailConfirm);
         notifyContainer = findViewById(R.id.notifyContainer);
+        addBackgroundImage = findViewById(R.id.addBackgroundImage);
+        backgroundImage = findViewById(R.id.backgroundImage);
 
         intent = getIntent();
         task = (Task) intent.getSerializableExtra("task");
         taskTile.setText(task.getTaskName());
         taskDescription.setText(task.getDescription());
-        // query get selected tag list by taskID
         if(task.getCreatedAt() != null) {
             beginTime.setText(dateFormat(task.getCreatedAt()));
         }
@@ -84,7 +88,13 @@ public class TaskDetails extends AppCompatActivity {
         if(!deadlineTime.getText().toString().isEmpty()) {
             notifyContainer.setVisibility(View.VISIBLE);
         }
+        // hide add background textview if has URL
+        if(task.getImageURL() == null || task.getImageURL().isEmpty()) {
+            backgroundImage.setImageURI(Uri.parse(task.getImageURL()));
+        }
 
+        // query get selected tag list by taskID
+        // ->
         tags = new ArrayList<>();
         tagListAdapter = new TagListAdapter(tagFlexBox, TaskDetails.this);
         tagListAdapter.setTags(tags);
@@ -100,8 +110,9 @@ public class TaskDetails extends AppCompatActivity {
             public void onClick(View view) {
                 if(beginTime.getText().toString().isEmpty()){
                     beginTime.setText(dateFormat(new Date()));
+                    task.setCreatedAt(new Date());
                 } else {
-                    openDateDialog((TextView) view);
+                    task.setDeadline(openDateDialog((TextView) view));
                 }
             }
         });
@@ -109,7 +120,7 @@ public class TaskDetails extends AppCompatActivity {
         deadlineTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDateDialog((TextView) view);
+                task.setDeadline(openDateDialog((TextView) view));
             }
         });
 
@@ -118,6 +129,19 @@ public class TaskDetails extends AppCompatActivity {
         taskDetailCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
+
+        taskDetailConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = getIntent();
+                task.setTaskName(taskTile.getText().toString());
+                // update task to database
+                // ->
+                intent.putExtra("task", task);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });
@@ -134,7 +158,7 @@ public class TaskDetails extends AppCompatActivity {
         }
     }
 
-    private void openDateDialog(TextView textView) {
+    private Date openDateDialog(TextView textView) {
         LocalDateTime defaultDate = LocalDateTime.now();
         Date selectedDate = new Date();
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -147,6 +171,7 @@ public class TaskDetails extends AppCompatActivity {
             }
         }, defaultDate.getYear(), defaultDate.getMonthValue()-1, defaultDate.getDayOfMonth());
         datePickerDialog.show();
+        return selectedDate;
     }
 
     private void openTimeDialog(TextView textView, Date selectedDate) {

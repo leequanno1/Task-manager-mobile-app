@@ -12,6 +12,7 @@ public class Task implements Serializable {
     private Date completedAt;
     private String description;
     private String imageURL;
+//    private int notifyWhen;
 
     public Task(int taskID, int groupID, String taskName, Date createdAt, Date deadline, Date completedAt, String description, String imageURL) {
         this.taskID = taskID;

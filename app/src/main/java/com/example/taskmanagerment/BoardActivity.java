@@ -23,6 +23,7 @@ import java.util.List;
 
 public class BoardActivity extends AppCompatActivity {
 
+    public static final int MODIFY_TASK_REQUEST = 1;
     private ImageView goBackButton, moreOptionsButtonOfBoard, notificationButtonOfBoard;
     private ImageView filterButtonOfBoard, confirmEditTitleName, closeEnterTitleName;
     private EditText projectTitleEdt, filterEdt;
@@ -184,7 +185,7 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 ){
+        if(requestCode == MODIFY_TASK_REQUEST ){
             if(resultCode == RESULT_CANCELED) {
                 // doing nothing...
             }
@@ -192,6 +193,7 @@ public class BoardActivity extends AppCompatActivity {
                 // find the group has id == ? and task has id = ? and replace it.
                 Task task = (Task) data.getSerializableExtra("task");
                 replaceSameIDTask(task);
+                groupHorizontalRecyclerView.getAdapter().notifyDataSetChanged();
             }
         }
     }
