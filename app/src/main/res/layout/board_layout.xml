@@ -145,11 +145,14 @@
         app:layout_constraintTop_toBottomOf="@id/board_toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
             android:id="@+id/groupHorizontalRecyclerView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             tools:listitem="@layout/task_group" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

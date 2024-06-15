@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="15dp"
-    app:cardCornerRadius="20dp">
+    android:layout_marginEnd="15dp"
+    app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:background="@color/app_background"
         android:orientation="vertical"
         android:paddingHorizontal="10dp"
-        android:paddingVertical="15dp">
+        android:paddingVertical="10dp">
 
         <Button
             android:id="@+id/addNewGroup"
@@ -25,17 +25,18 @@
             android:text="+ Add group..."
             android:textAllCaps="false"
             android:textColor="#0c66e1"
-            android:textSize="23dp"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:ignore="HardcodedText" />
 
         <LinearLayout
             android:id="@+id/editGroupContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:visibility="gone">
 
             <ImageButton
                 android:id="@+id/editGroupCancel"
@@ -43,22 +44,21 @@
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
                 android:src="@drawable/baseline_clear" />
 
             <EditText
-                android:layout_weight="1"
                 android:id="@+id/editGroupName"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:ems="10"
                 android:inputType="text"
                 android:paddingHorizontal="10dp"
-                android:text="Name"
-                android:textSize="25dp"
-                android:textStyle="bold" />
+                android:hint="Name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,InefficientWeight" />
 
             <ImageButton
                 android:id="@+id/editGroupConfirm"
@@ -67,9 +67,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
                 android:src="@drawable/baseline_check" />
+
+
         </LinearLayout>
 
         <RelativeLayout
@@ -83,8 +83,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="center_vertical"
+                android:paddingLeft="15dp"
                 android:text="TextView"
-                android:textSize="25dp"
+                android:textSize="22dp"
                 android:textStyle="bold" />
 
             <ImageButton
@@ -94,7 +95,11 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="20dp"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
                 android:src="@drawable/ellipsis_vertical_solid" />
+
         </RelativeLayout>
 
         <LinearLayout
@@ -104,9 +109,10 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
                 <ListView
                     android:id="@+id/taskListView"
                     android:layout_width="match_parent"
@@ -170,9 +176,11 @@
                 android:paddingVertical="5dp"
                 android:text="+ Add task"
                 android:textAllCaps="false"
-                android:textColor="@color/blue_primary"
-                android:textSize="23dp"
+                android:textColor="#0c66e1"
+                android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

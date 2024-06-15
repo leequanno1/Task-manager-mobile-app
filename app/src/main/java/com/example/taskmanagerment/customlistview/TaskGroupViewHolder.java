@@ -18,20 +18,35 @@ import com.example.taskmanagerment.R;
 public class TaskGroupViewHolder extends RecyclerView.ViewHolder {
 
     ViewGroup editGroupContainer;
+
     ViewGroup groupNameContainer;
+
     ViewGroup listContentContainer;
+
     ImageButton editGroupCancel;
+
     ImageButton editGroupConfirm;
+
     ImageButton groupMenu;
+
     ImageButton addNewTaskConfirm;
+
     ImageButton addNewTaskCancel;
+
     EditText editGroupName, newTaskName;
+
     TextView groupName;
+
     ListView taskListView;
+
     CardView newTaskNameContainer;
+
     Button addNewGroup, addNewTask;
+
+
     public TaskGroupViewHolder(@NonNull View itemView) {
         super(itemView);
+
         addNewGroup = itemView.findViewById(R.id.addNewGroup);
         editGroupContainer = itemView.findViewById(R.id.editGroupContainer);
         editGroupCancel = itemView.findViewById(R.id.editGroupCancel);

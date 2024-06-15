@@ -24,14 +24,22 @@ import java.util.List;
 public class TaskAdapter extends ArrayAdapter<Task> {
 
     Context context;
+
     List<Task> resource;
+
     AppCompatActivity activity;
+
+    int projectID = -1;
 
     public TaskAdapter(@NonNull AppCompatActivity context, List<Task> resource) {
         super(context, R.layout.task_item, resource);
         this.context = context;
         this.resource = resource;
         this.activity = context;
+    }
+
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
     }
 
     @NonNull
@@ -42,6 +50,8 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.task_item, parent, false);
         }
         LinearLayout taskItem = convertView.findViewById(R.id.taskItem);
+        activity.registerForContextMenu(taskItem);
+
         LinearLayout beginTimeContainer = convertView.findViewById(R.id.beginTimeContainer);
         LinearLayout deadlineTimeContainer = convertView.findViewById(R.id.deadlineTimeContainer);
         TextView beginTime = convertView.findViewById(R.id.beginTime);
@@ -79,12 +89,16 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             public void onClick(View view) {
                 Intent intent = new Intent(context, TaskDetails.class);
                 intent.putExtra("task", task);
+                intent.putExtra("projectID", projectID);
                 activity.startActivityForResult(intent, 1);
             }
         });
 
+
         return convertView;
     }
+
+
 
 
 }

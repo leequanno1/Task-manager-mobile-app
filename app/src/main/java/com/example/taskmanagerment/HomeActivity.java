@@ -64,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         // Register context menu for board list view.
         registerForContextMenu(boardListview);
 
+
         // Handle when item in board list view is clicked.
         boardListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
