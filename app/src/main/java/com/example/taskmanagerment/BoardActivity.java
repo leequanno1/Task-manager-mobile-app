@@ -3,6 +3,8 @@ package com.example.taskmanagerment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,6 +81,7 @@ public class BoardActivity extends AppCompatActivity {
                     projectTitleEdt.setVisibility(View.VISIBLE);
                     filterButtonOfBoard.setVisibility(View.VISIBLE);
 
+                    filterEdt.setText("");
                     isFillerEdtVisibility = false;
                 } else {
                     Intent intent = new Intent(BoardActivity.this, HomeActivity.class);
@@ -187,6 +190,31 @@ public class BoardActivity extends AppCompatActivity {
 
                 projectTitleEdt.setVisibility(View.GONE);
                 filterButtonOfBoard.setVisibility(View.GONE);
+            }
+        });
+
+        filterEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!charSequence.toString().isEmpty()) {
+                    groups.clear();
+                    groups.addAll(taskGroupService.filterByTaskName(projectID, charSequence.toString()));
+                    groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this, projectID));
+                } else {
+                    groups.clear();
+                    groups.addAll(taskGroupService.getTaskGroupsByProjectId(projectID));
+                    groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this, projectID));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }

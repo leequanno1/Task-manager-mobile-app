@@ -102,4 +102,36 @@ public class TaskGroupService {
         return rowsAffected > 0;
     }
 
+    public List<TaskGroup> filterByTaskName(int projectId, String taskName) {
+        String sql = "SELECT TaskGroup.* FROM TaskGroup \n" +
+                "JOIN Task ON TaskGroup.GroupID = Task.GroupID \n" +
+                "WHERE Task.TaskName LIKE ? AND ProjectID = ? GROUP BY  TaskGroup.GroupID, ProjectID, GroupName, TaskGroup.CreatedAt;\n";
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        TaskService taskService = new TaskService(context);
+        List<TaskGroup> taskGroups = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql, new String[] {"%"+taskName+"%", projectId+""});
+        if (cursor != null) {
+            int groupIdIndex = cursor.getColumnIndex("GroupID");
+            int projectNameIndex = cursor.getColumnIndex("ProjectID");
+            int groupNameIndex = cursor.getColumnIndex("GroupName");
+            int createdAtIndex = cursor.getColumnIndex("CreatedAt");
+
+            while (cursor.moveToNext()) {
+                if (groupIdIndex != -1 && projectNameIndex != -1 && groupNameIndex != -1 && createdAtIndex != -1) {
+                    int groupId = cursor.getInt(groupIdIndex);
+                    int projId = cursor.getInt(projectNameIndex);
+                    String groupName = cursor.getString(groupNameIndex);
+                    String createdAt = cursor.getString(createdAtIndex);
+
+                    TaskGroup taskGroup = new TaskGroup(groupId, projId, groupName, null, taskService.getAllTaskByGroupIdAndTaskName(groupId, taskName));
+                    taskGroups.add(taskGroup);
+                }
+            }
+            cursor.close();
+        }
+        db.close();
+        return taskGroups;
+
+    }
+
 }

@@ -94,6 +94,60 @@ public class TaskService {
         return tasks;
     }
 
+    public ArrayList<Task> getAllTaskByGroupIdAndTaskName(int groupId, String inputTaskName) {
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        String[] columns = {
+                "TaskID", "GroupID", "TaskName", "CreatedAt", "Deadline", "CompletedAt", "Description", "ImageURL"
+        };
+
+        String selection = "GroupID = ? AND TaskName LIKE ?";
+        String[] selectionArgs = {String.valueOf(groupId), "%"+inputTaskName+"%"};
+
+        Cursor cursor = db.query("Task", columns, selection, selectionArgs, null, null, "CreatedAt ASC");
+
+        if (cursor.moveToFirst()) {
+            do {
+                int taskId = cursor.getInt(cursor.getColumnIndexOrThrow("TaskID"));
+                String taskName = cursor.getString(cursor.getColumnIndexOrThrow("TaskName"));
+                String createdAtString = cursor.getString(cursor.getColumnIndexOrThrow("CreatedAt"));
+                String deadlineString = cursor.getString(cursor.getColumnIndexOrThrow("Deadline"));
+                String completedAtString = cursor.getString(cursor.getColumnIndexOrThrow("CompletedAt"));
+                String description = cursor.getString(cursor.getColumnIndexOrThrow("Description"));
+                String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("ImageURL"));
+//                String notifyWhen = cursor.getString(cursor.getColumnIndexOrThrow("NotifyWhen"));
+
+
+                Date createdAt = null;
+                Date deadline = null;
+                Date completedAt = null;
+
+                try {
+                    createdAt = dateFormat.parse(createdAtString);
+                    if (deadlineString != null) {
+                        deadline = dateFormat.parse(deadlineString);
+                    }
+                    if (completedAtString != null) {
+                        completedAt = dateFormat.parse(completedAtString);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Task task = new Task(taskId, groupId, taskName, createdAt, deadline, completedAt, description, imageUrl);
+                tasks.add(task);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return tasks;
+    }
+
+
+
 
     // Phương thức xóa Task dựa vào ID
     public boolean deleteTask(long taskId) {
