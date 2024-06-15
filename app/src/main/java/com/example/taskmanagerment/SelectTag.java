@@ -104,7 +104,8 @@ public class SelectTag extends AppCompatActivity {
     }
 
     private void handleDeleteTag(Intent data) {
-        int pos = data.getIntExtra("index", -1) ;
+        int pos = data.getIntExtra("index", -1);
+        tagService.deleteTag(tags.get(pos).getTagID());
         tags.remove(pos);
         tagListViewAdapter.notifyDataSetChanged();
     }
