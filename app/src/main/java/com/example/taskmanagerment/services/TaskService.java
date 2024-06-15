@@ -83,7 +83,7 @@ public class TaskService {
                     e.printStackTrace();
                 }
 
-                Task task = new Task(taskId, groupId, taskName, createdAt, deadline, completedAt, description, imageUrl, null);
+                Task task = new Task(taskId, groupId, taskName, createdAt, deadline, completedAt, description, imageUrl);
                 tasks.add(task);
             } while (cursor.moveToNext());
         }
@@ -116,4 +116,24 @@ public class TaskService {
         return rowsAffected > 0;
     }
 
+    public boolean modifyTask(Task task) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TaskName", task.getTaskName());
+        contentValues.put("CreatedAt", dateFormat.format(task.getCreatedAt()));
+        contentValues.put("Deadline", task.getDeadline() != null ? dateFormat.format(task.getDeadline()) : null);
+        contentValues.put("Description", task.getDescription());
+        contentValues.put("ImageURL", task.getImageURL());
+        contentValues.put("NotifyWhen", task.getNotifyWhen());
+        long rowModified = db.update("Task", contentValues, "TaskID=?", new String[] {task.getTaskID()+""});
+        return rowModified > 0;
+    }
+
+    public boolean setCompleteTime(Task task) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("CompletedAt", task.getCompletedAt() != null ? dateFormat.format(task.getCompletedAt()) : null);
+        long rowModified = db.update("Task", contentValues, "TaskID=?", new String[] {task.getTaskID()+""});
+        return rowModified > 0;
+    }
 }

@@ -36,6 +36,19 @@
                 android:scaleX="1.5"/>
 
             <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="70dp"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/baseline_clear"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                app:tint="@color/danger" />
+            <ImageButton
                 android:id="@+id/confirm"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

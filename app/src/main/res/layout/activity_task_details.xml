@@ -4,46 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskDetails"
-    android:background="@color/app_background">
+    android:background="@color/app_background"
+    tools:context=".TaskDetails">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_row_container"
+        android:gravity="center"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageButton
                 android:id="@+id/taskDetailCancel"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/baseline_clear"
                 android:background="@android:color/transparent"
                 android:scaleX="1.25"
-                android:scaleY="1.25"/>
+                android:scaleY="1.25"
+                android:src="@drawable/baseline_clear" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Some text"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="Some text" />
+
             <ImageButton
                 android:id="@+id/taskDetailConfirm"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/baseline_check"
+                android:layout_marginRight="20dp"
                 android:background="@android:color/transparent"
                 android:scaleX="1.25"
                 android:scaleY="1.25"
-                android:layout_marginRight="20dp"/>
+                android:src="@drawable/baseline_check" />
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -52,35 +56,58 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:stretchColumns="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/backgroundImage"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/addBackgroundImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="Add image"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="15dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/shape_row_container"
-            >
+            android:paddingVertical="15dp">
+
             <EditText
                 android:id="@+id/taskTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hoc bai"
-                android:textSize="30dp"
-                android:inputType="text"
+                android:layout_column="1"
                 android:background="@android:color/transparent"
-                android:layout_column="1"/>
+                android:inputType="text"
+                android:text="Hoc bai"
+                android:textSize="30dp" />
         </TableRow>
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="15dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/shape_row_container"
-            android:layout_marginBottom="10dp">
+            android:paddingVertical="15dp">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -104,9 +131,9 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="15dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/shape_row_container"
-            android:layout_marginBottom="10dp">
+            android:paddingVertical="15dp">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -116,15 +143,14 @@
                 android:layout_marginRight="20dp"
                 android:src="@drawable/baseline_bookmark" />
 
-            <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/tagFlexbox"
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/tagFlexbox"
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                app:flexWrap="wrap"
-                app:alignItems="center">
+                app:alignItems="center"
+                app:flexWrap="wrap">
 
             </com.google.android.flexbox.FlexboxLayout>
         </TableRow>
@@ -132,8 +158,8 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="15dp"
-            android:background="@drawable/shape_row_container">
+            android:background="@drawable/shape_row_container"
+            android:paddingVertical="15dp">
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -144,52 +170,53 @@
                 android:src="@drawable/baseline_more_time" />
 
             <TextView
-                android:clickable="true"
                 android:id="@+id/beginTime"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:clickable="true"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textSize="18dp"
+                android:hint="@string/begin_day"
                 android:paddingLeft="5dp"
-                android:hint="@string/begin_day" />
+                android:textSize="18dp" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="15dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/shape_row_container"
-            android:layout_marginBottom="10dp">
+            android:paddingVertical="15dp">
 
             <CheckBox
                 android:id="@+id/chkIsCompleted"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"
+                android:layout_column="0"
                 android:layout_gravity="center"
-                android:layout_column="0"/>
+                android:visibility="invisible" />
 
             <TextView
-                android:clickable="true"
                 android:id="@+id/deadlineTime"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_column="1"
+                android:clickable="true"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textSize="18dp"
-                android:paddingLeft="5dp"
                 android:hint="@string/deadline_day"
-                android:layout_column="1"/>
+                android:paddingLeft="5dp"
+                android:textSize="18dp" />
 
         </TableRow>
+
         <TableRow
             android:id="@+id/notifyContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="15dp"
-            android:background="@drawable/shape_row_container"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/shape_row_container"
+            android:paddingVertical="15dp"
             android:visibility="gone">
 
             <ImageView
@@ -200,16 +227,16 @@
                 android:src="@drawable/baseline_notifications_active" />
 
             <Spinner
-                android:clickable="true"
                 android:id="@+id/notificationAt"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_column="1"
+                android:clickable="true"
                 android:ems="10"
                 android:gravity="center_vertical"
-                android:textSize="18dp"
-                android:paddingLeft="5dp"
                 android:hint="@string/deadline_day"
-                android:layout_column="1"/>
+                android:paddingLeft="5dp"
+                android:textSize="18dp" />
 
         </TableRow>
     </TableLayout>

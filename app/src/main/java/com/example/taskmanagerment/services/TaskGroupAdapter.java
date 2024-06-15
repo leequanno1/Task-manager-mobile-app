@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -110,7 +111,9 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
 
         } else {
             holder.getGroupName().setText(groups.get(position).getGroupName());
-            holder.getTaskListView().setAdapter(new TaskAdapter(activity, groups.get(position).getTasks()));
+            TaskAdapter taskAdapter = new TaskAdapter(activity, groups.get(position).getTasks());
+            taskAdapter.setProjectID(projectID);
+            holder.getTaskListView().setAdapter(taskAdapter);
 
             activity.registerForContextMenu(holder.getTaskListView());
 
@@ -155,7 +158,7 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
                     TaskService taskService = new TaskService(context);
                     long taskID = taskService.addTask(groupID, holder.getNewTaskName().getText().toString(), null, null, null);
 
-                    groups.get(position).getTasks().add(new Task((int) taskID, groupID, holder.getNewTaskName().getText().toString(), null, null, null, "", "", null));
+                    groups.get(position).getTasks().add(new Task((int) taskID, groupID, holder.getNewTaskName().getText().toString(), null, null, null, "", ""));
 
                     notifyDataSetChanged();
                 }

@@ -4,16 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.taskmanagerment.R;
-import com.example.taskmanagerment.SelectTag;
 import com.example.taskmanagerment.TaskDetails;
 import com.example.taskmanagerment.models.Tag;
 import com.example.taskmanagerment.models.TagList;
@@ -38,6 +34,8 @@ public class TagListAdapter {
     public static final int REQUEST_CODE = 1;
 
     private ViewGroup.MarginLayoutParams layoutParams;
+
+    private int projectID = -1;
 
     public TagListAdapter(ViewGroup parent, TaskDetails context) {
         this.parent = parent;
@@ -94,6 +92,10 @@ public class TagListAdapter {
         render();
     }
 
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
+    }
+
     private void removeAll () {
         // remove all child
         parent.removeAllViews();
@@ -116,6 +118,7 @@ public class TagListAdapter {
                 // change activity
                 Intent intent = new Intent(context, childActivity);
                 intent.putExtra("tags", new TagList(tags));
+                intent.putExtra("projectID", projectID);
                 taskDetails.startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -174,6 +177,7 @@ public class TagListAdapter {
                 // change activity
                 Intent intent = new Intent(context, childActivity);
                 intent.putExtra("tags", new TagList(tags));
+                intent.putExtra("projectID", projectID);
                 taskDetails.startActivityForResult(intent, REQUEST_CODE);
             }
         });

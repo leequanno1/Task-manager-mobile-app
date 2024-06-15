@@ -29,11 +29,17 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
     AppCompatActivity activity;
 
+    int projectID = -1;
+
     public TaskAdapter(@NonNull AppCompatActivity context, List<Task> resource) {
         super(context, R.layout.task_item, resource);
         this.context = context;
         this.resource = resource;
         this.activity = context;
+    }
+
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
     }
 
     @NonNull
@@ -83,6 +89,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             public void onClick(View view) {
                 Intent intent = new Intent(context, TaskDetails.class);
                 intent.putExtra("task", task);
+                intent.putExtra("projectID", projectID);
                 activity.startActivityForResult(intent, 1);
             }
         });

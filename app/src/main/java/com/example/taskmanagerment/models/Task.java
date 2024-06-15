@@ -20,11 +20,12 @@ public class Task implements Serializable {
     private String description;
 
     private String imageURL;
+//    private int notifyWhen;
 
-    private Date notifyWhen;
+    private int notifyWhen;
 
 
-    public Task(int taskID, int groupID, String taskName, Date createdAt, Date deadline, Date completedAt, String description, String imageURL, Date notifyWhen) {
+    public Task(int taskID, int groupID, String taskName, Date createdAt, Date deadline, Date completedAt, String description, String imageURL) {
         this.taskID = taskID;
         this.groupID = groupID;
         this.taskName = taskName;
@@ -33,7 +34,7 @@ public class Task implements Serializable {
         this.completedAt = completedAt;
         this.description = description;
         this.imageURL = imageURL;
-        this.notifyWhen = notifyWhen;
+        this.notifyWhen = 0;
     }
 
     public Task() {
@@ -103,11 +104,11 @@ public class Task implements Serializable {
         this.imageURL = imageURL;
     }
 
-    public Date getNotifyWhen() {
+    public int getNotifyWhen() {
         return notifyWhen;
     }
 
-    public void setNotifyWhen(Date notifyWhen) {
+    public void setNotifyWhen(int notifyWhen) {
         this.notifyWhen = notifyWhen;
     }
 }

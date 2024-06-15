@@ -64,6 +64,7 @@ public class ColorListViewAdapter extends ArrayAdapter<String> {
                     chkColorSelected.setChecked(true);
                     chkColorSelected.setVisibility(View.VISIBLE);
                     selectedCheckBox = chkColorSelected;
+                    selectedColor = ((TextView) view).getText().toString();
                 } else {
                     selectedCheckBox.setChecked(!selectedCheckBox.isChecked());
                     selectedCheckBox.setVisibility(selectedCheckBox.isChecked()?View.VISIBLE:View.INVISIBLE);

@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "CompletedAt TEXT, " +
                 "Description TEXT, " +
                 "ImageURL TEXT, " +
-                "notifyWhen TEXT, " +
+                "NotifyWhen INTEGER NOT NULL DEFAULT 0, " +
                 "FOREIGN KEY (GroupID) REFERENCES TaskGroup(GroupID) " +
                 "ON UPDATE CASCADE ON DELETE CASCADE);";
 
