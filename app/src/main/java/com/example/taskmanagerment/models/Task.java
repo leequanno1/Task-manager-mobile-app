@@ -38,6 +38,15 @@ public class Task implements Serializable {
     }
 
     public Task() {
+        this.taskID = -1;
+        this.groupID = -1;
+        this.taskName = "";
+        this.createdAt = null;
+        this.deadline = null;
+        this.completedAt = null;
+        this.description = "";
+        this.imageURL = "";
+        this.notifyWhen = 0;
     }
 
     public int getTaskID() {

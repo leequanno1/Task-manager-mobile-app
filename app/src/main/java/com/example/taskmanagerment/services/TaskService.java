@@ -41,6 +41,40 @@ public class TaskService {
         return taskId;
     }
 
+    public long addTask(int groupId, String taskName, Date startDate, Date deadline, String description, String imageUrl) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("GroupID", groupId);
+        values.put("TaskName", taskName);
+        values.put("CreatedAt", startDate != null ? dateFormat.format(startDate) : dateFormat.format(new Date()));
+        values.put("Deadline", deadline != null ? dateFormat.format(deadline) : null);
+        values.put("Description", description);
+        values.put("ImageURL", imageUrl);
+
+        long taskId = db.insert("Task", null, values);
+        db.close();
+
+        return taskId;
+    }
+
+    public long addTask(Task task) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("GroupID", task.getGroupID());
+        values.put("TaskName", task.getTaskName());
+        values.put("CreatedAt", task.getCreatedAt() != null ? dateFormat.format(task.getCreatedAt()) : dateFormat.format(new Date()));
+        values.put("Deadline", task.getDeadline() != null ? dateFormat.format(task.getDeadline()) : null);
+        values.put("Description", task.getDescription());
+        values.put("ImageURL", task.getImageURL());
+
+        long taskId = db.insert("Task", null, values);
+        db.close();
+
+        return taskId;
+    }
+
     // Phương thức lấy tất cả Task ứng với GroupID
     public ArrayList<Task> getAllTasksByGroupId(int groupId) {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();

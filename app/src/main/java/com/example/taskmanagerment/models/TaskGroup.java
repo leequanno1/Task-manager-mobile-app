@@ -1,9 +1,10 @@
 package com.example.taskmanagerment.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class TaskGroup {
+public class TaskGroup implements Serializable {
 
     private int groupId;
 
@@ -64,5 +65,10 @@ public class TaskGroup {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    @Override
+    public String toString() {
+        return groupName;
     }
 }

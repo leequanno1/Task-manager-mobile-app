@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Board"
+            android:text="Project"
             android:textSize="16sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,26 +77,25 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp">
 
-            <TextView
-                android:id="@+id/board_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+            <Spinner
+                android:id="@+id/board_name_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
                 android:textColor="#000"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/baseline_keyboard_arrow_down_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="#ccc" />
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:src="@drawable/baseline_keyboard_arrow_down_24"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:tint="#ccc" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -113,7 +112,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="List"
+            android:text="Group"
             android:textSize="16sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -127,26 +126,25 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp">
 
-            <TextView
-                android:id="@+id/list_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+            <Spinner
+                android:id="@+id/list_name_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
                 android:textColor="#000"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/baseline_keyboard_arrow_down_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="#ccc" />
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:src="@drawable/baseline_keyboard_arrow_down_24"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:tint="#ccc" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -214,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Start date"
+                    android:hint="Start date"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -241,7 +239,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="End date"
+                    android:hint="End date"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
