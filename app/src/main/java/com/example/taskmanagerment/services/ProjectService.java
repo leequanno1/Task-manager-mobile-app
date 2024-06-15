@@ -16,8 +16,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProjectService {
+
     private DatabaseHelper databaseHelper;
+
     private Context context;
+
 
     public ProjectService(Context context) {
         this.context = context;
