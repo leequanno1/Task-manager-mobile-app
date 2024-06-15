@@ -303,7 +303,6 @@ public class BoardActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.delete_task_item) {
             TaskGroupAdapter taskGroupAdapter = (TaskGroupAdapter) groupHorizontalRecyclerView.getAdapter();
-            Toast.makeText(BoardActivity.this, taskGroupAdapter.getSelectedTaskID() + " ", Toast.LENGTH_SHORT).show();
             taskService.deleteTask(taskGroupAdapter.getSelectedTaskID());
 
             for (int i = 0; i < groups.size(); i++) {

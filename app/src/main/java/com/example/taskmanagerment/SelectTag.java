@@ -40,7 +40,6 @@ public class SelectTag extends AppCompatActivity {
         projectID = getProjectID();
         tagService = new TagService(SelectTag.this);
         tags = tagService.getTags(projectID);
-        Toast.makeText(this, projectID+"", Toast.LENGTH_SHORT).show();
 
         tagListViewAdapter = new TagListViewAdapter(this, tags, selectedTags);
         tagListView.setAdapter(tagListViewAdapter);
@@ -125,8 +124,7 @@ public class SelectTag extends AppCompatActivity {
     private void handleAddNewTag(Intent data) {
         Tag tag = (Tag) data.getSerializableExtra("tag");
         tag.setProjectID(projectID);
-        Toast.makeText(this,tag.toString(),0).show();
-        Toast.makeText(SelectTag.this, tagService.addNewTag(tag)+"", Toast.LENGTH_SHORT).show();
+        tagService.addNewTag(tag);
         tags.add(tag);
         tagListViewAdapter.notifyDataSetChanged();
     }

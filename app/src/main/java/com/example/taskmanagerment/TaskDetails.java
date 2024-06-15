@@ -248,7 +248,7 @@ public class TaskDetails extends AppCompatActivity {
 
         tagListAdapter = new TagListAdapter(tagFlexBox, TaskDetails.this);
         tagListAdapter.setTags(tags);
-        tagListAdapter.setProjectID(task.getGroupID());
+        tagListAdapter.setProjectID(projectID);
         tagListAdapter.setChildActivity(SelectTag.class);
         tagListAdapter.render();
 

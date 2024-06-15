@@ -159,9 +159,6 @@ public class TagListAdapter {
     private void deleteTag(View deletedView) {
         removeTagByID(deletedView.getId());
         parent.removeView(deletedView);
-        Toast toast = new Toast(context);
-        toast.setText(tags.size() + "");
-        toast.show();
     }
 
     private TextView generateTagPlaceholder(String placeholder) {
