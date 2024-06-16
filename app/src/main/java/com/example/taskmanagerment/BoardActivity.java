@@ -189,6 +189,14 @@ public class BoardActivity extends AppCompatActivity {
                 filterButtonOfBoard.setVisibility(View.GONE);
             }
         });
+
+        notificationButtonOfBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BoardActivity.this, NotificationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initialComponents() {

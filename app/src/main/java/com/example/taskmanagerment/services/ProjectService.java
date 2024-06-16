@@ -27,6 +27,7 @@ public class ProjectService {
         databaseHelper = new DatabaseHelper(context);
     }
 
+
     public long addProject(String projectName) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
@@ -120,6 +121,40 @@ public class ProjectService {
         return projects;
     }
 
+    public Project getProjectByID(int projectID) {
+        Project project = null;
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        // Thay đổi selection và selectionArgs để lọc theo ProjectID
+        String selection = "ProjectID = ?";
+        String[] selectionArgs = new String[]{String.valueOf(projectID)};
+
+        Cursor cursor = db.query("Project", null, selection, selectionArgs, null, null, null);
+        if (cursor != null) {
+            int projectIdIndex = cursor.getColumnIndex("ProjectID");
+            int projectNameIndex = cursor.getColumnIndex("ProjectName");
+            int createdAtIndex = cursor.getColumnIndex("CreatedAt");
+
+            if (cursor.moveToFirst()) {
+                if (projectIdIndex != -1 && projectNameIndex != -1 && createdAtIndex != -1) {
+                    int projectId = cursor.getInt(projectIdIndex);
+                    String projectName = cursor.getString(projectNameIndex);
+                    String createdAt = cursor.getString(createdAtIndex);
+
+                    project = new Project(projectId, projectName, createdAt);
+                }
+            }
+
+            cursor.close();
+        }
+
+        db.close();
+
+        return project;
+    }
+
+
+
     public boolean isProjectNameExists(String projectName) {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         String[] projection = {"ProjectID"};
@@ -148,6 +183,26 @@ public class ProjectService {
         db.close();
 
         return rowsAffected > 0;
+    }
+
+    public String getProjectNameById(long projectId) {
+        String projectName = null;
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        String[] projection = {"ProjectName"};
+        String selection = "ProjectID = ?";
+        String[] selectionArgs = {String.valueOf(projectId)};
+
+        Cursor cursor = db.query("Project", projection, selection, selectionArgs, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int projectNameIndex = cursor.getColumnIndex("ProjectName");
+            projectName = cursor.getString(projectNameIndex);
+            cursor.close();
+        }
+
+        db.close();
+
+        return projectName;
     }
 
 }

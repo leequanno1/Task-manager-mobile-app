@@ -20,7 +20,6 @@ public class Task implements Serializable {
     private String description;
 
     private String imageURL;
-//    private int notifyWhen;
 
     private int notifyWhen;
 

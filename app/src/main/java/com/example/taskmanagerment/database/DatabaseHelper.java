@@ -67,10 +67,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createNotificationTable = "CREATE TABLE IF NOT EXISTS Notification (" +
                 "NotificationID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "TaskID INTEGER NOT NULL, " +
-                "ProjectName TEXT NOT NULL, " +
-                "TaskName TEXT NOT NULL, " +
-                "DeadlineTime TEXT NOT NULL, " +
+                "ProjectID INTEGER NOT NULL, " +
+                "NotificationContent TEXT NOT NULL, " +
+                "NotificationTime TEXT NOT NULL, " +
+                "IsRead INTEGER NOT NULL DEFAULT 0, " +
                 "FOREIGN KEY (TaskID) REFERENCES Task(TaskID) " +
+                "ON UPDATE CASCADE ON DELETE CASCADE, " +
+                "FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID) " +
                 "ON UPDATE CASCADE ON DELETE CASCADE);";
 
         db.execSQL(createProjectTable);
@@ -100,4 +103,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteDatabase() {
         context.deleteDatabase(DATABASE_NAME);
     }
+
 }

@@ -39,7 +39,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/check_all_notification_button"
+            android:id="@+id/allow_notify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -48,12 +48,12 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="8dp"
-            android:src="@drawable/baseline_more_vert_24"
-            android:tooltipText="More options"
+            android:src="@drawable/baseline_lightbulb_24"
+            android:tooltipText="Allow notification"
             app:tint="@color/white" />
 
         <ImageView
-            android:id="@+id/more_options_button"
+            android:id="@+id/mark_all_as_read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -63,7 +63,7 @@
             android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/baseline_checklist_rtl_24"
-            android:tooltipText="Check all notification"
+            android:tooltipText="Mark all as read"
             app:tint="@color/white" />
 
 
@@ -84,6 +84,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:divider="@null"
         app:layout_constraintTop_toBottomOf="@+id/check_box_filter_not_read" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
