@@ -11,4 +11,5 @@ public class NotifyWhen implements Serializable {
     public static final int BEFORE_TEN_MINUTES = 5;
     public static final int BEFORE_FIVE_MINUTES = 6;
     public static final int AT_DEADLINE = 7;
+
 }

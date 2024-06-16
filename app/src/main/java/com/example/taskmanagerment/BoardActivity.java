@@ -201,7 +201,7 @@ public class BoardActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!charSequence.toString().isEmpty()) {
+                if (!charSequence.toString().isEmpty()) {
                     groups.clear();
                     groups.addAll(taskGroupService.filterByTaskName(projectID, charSequence.toString()));
                     groupHorizontalRecyclerView.setAdapter(new TaskGroupAdapter(groups, BoardActivity.this, projectID));
@@ -215,6 +215,14 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+
+        notificationButtonOfBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BoardActivity.this, NotificationActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -251,8 +259,8 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == MODIFY_TASK_REQUEST ){
-            if(resultCode == RESULT_CANCELED) {
+        if (requestCode == MODIFY_TASK_REQUEST) {
+            if (resultCode == RESULT_CANCELED) {
 
                 // doing nothing...
             }

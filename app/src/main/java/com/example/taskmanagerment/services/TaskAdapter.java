@@ -68,7 +68,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             beginTimeContainer.setVisibility(View.GONE);
         }
         // hide end date if null
-        if (task.getDeadline() != null) {
+        if (task.getDeadline() != null && task.getCompletedAt() == null) {
             // set background for end date: yellow if not deadline - red if deadlined
             deadlineTimeContainer.setVisibility(View.VISIBLE);
             deadlineTime.setText(task.getDeadline().toString());

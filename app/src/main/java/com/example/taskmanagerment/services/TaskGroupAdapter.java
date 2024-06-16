@@ -142,6 +142,7 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
             public void onClick(View view) {
                 holder.getNewTaskNameContainer().setVisibility(View.GONE);
                 holder.getAddNewTask().setVisibility(View.VISIBLE);
+                holder.getNewTaskName().setText("");
             }
         });
 
@@ -159,7 +160,7 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
                     long taskID = taskService.addTask(groupID, holder.getNewTaskName().getText().toString(), null, null, null);
 
                     groups.get(position).getTasks().add(new Task((int) taskID, groupID, holder.getNewTaskName().getText().toString(), null, null, null, "", ""));
-
+                    holder.getNewTaskName().setText("");
                     notifyDataSetChanged();
                 }
             }

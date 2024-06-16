@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class TaskService {
+
     private DatabaseHelper databaseHelper;
+
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
     public TaskService(Context context) {
@@ -34,6 +36,7 @@ public class TaskService {
         values.put("Deadline", deadline != null ? dateFormat.format(deadline) : null);
         values.put("Description", description);
         values.put("ImageURL", imageUrl);
+        values.put("NotifyWhen", 2);
 
         long taskId = db.insert("Task", null, values);
         db.close();
@@ -81,7 +84,7 @@ public class TaskService {
         ArrayList<Task> tasks = new ArrayList<>();
 
         String[] columns = {
-                "TaskID", "GroupID", "TaskName", "CreatedAt", "Deadline", "CompletedAt", "Description", "ImageURL"
+                "TaskID", "GroupID", "TaskName", "CreatedAt", "Deadline", "CompletedAt", "Description", "ImageURL", "NotifyWhen"
         };
 
         String selection = "GroupID = ?";
@@ -98,8 +101,7 @@ public class TaskService {
                 String completedAtString = cursor.getString(cursor.getColumnIndexOrThrow("CompletedAt"));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow("Description"));
                 String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("ImageURL"));
-//                String notifyWhen = cursor.getString(cursor.getColumnIndexOrThrow("NotifyWhen"));
-
+                int notifyWhen = cursor.getInt(cursor.getColumnIndexOrThrow("NotifyWhen"));
 
                 Date createdAt = null;
                 Date deadline = null;
@@ -118,6 +120,7 @@ public class TaskService {
                 }
 
                 Task task = new Task(taskId, groupId, taskName, createdAt, deadline, completedAt, description, imageUrl);
+                task.setNotifyWhen(notifyWhen);
                 tasks.add(task);
             } while (cursor.moveToNext());
         }
@@ -213,7 +216,7 @@ public class TaskService {
         contentValues.put("Description", task.getDescription());
         contentValues.put("ImageURL", task.getImageURL());
         contentValues.put("NotifyWhen", task.getNotifyWhen());
-        long rowModified = db.update("Task", contentValues, "TaskID=?", new String[] {task.getTaskID()+""});
+        long rowModified = db.update("Task", contentValues, "TaskID=?", new String[]{task.getTaskID() + ""});
         return rowModified > 0;
     }
 
@@ -221,7 +224,75 @@ public class TaskService {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("CompletedAt", task.getCompletedAt() != null ? dateFormat.format(task.getCompletedAt()) : null);
-        long rowModified = db.update("Task", contentValues, "TaskID=?", new String[] {task.getTaskID()+""});
+        long rowModified = db.update("Task", contentValues, "TaskID=?", new String[]{task.getTaskID() + ""});
         return rowModified > 0;
     }
+
+    public Task getTaskById(int taskId) {
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        Task task = new Task();
+
+        String[] columns = {
+                "TaskID", "GroupID", "TaskName", "CreatedAt", "Deadline", "CompletedAt", "Description", "ImageURL", "NotifyWhen"
+        };
+
+        String selection = "TaskID = ?";
+        String[] selectionArgs = {String.valueOf(taskId)};
+
+        Cursor cursor = db.query("Task", columns, selection, selectionArgs, null, null, "CreatedAt ASC");
+
+        if (cursor.moveToFirst()) {
+            int groupId = cursor.getInt(cursor.getColumnIndexOrThrow("GroupID"));
+            String taskName = cursor.getString(cursor.getColumnIndexOrThrow("TaskName"));
+            String createdAtString = cursor.getString(cursor.getColumnIndexOrThrow("CreatedAt"));
+            String deadlineString = cursor.getString(cursor.getColumnIndexOrThrow("Deadline"));
+            String completedAtString = cursor.getString(cursor.getColumnIndexOrThrow("CompletedAt"));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow("Description"));
+            String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow("ImageURL"));
+            int notifyWhen = cursor.getInt(cursor.getColumnIndexOrThrow("NotifyWhen"));
+
+            Date createdAt = null;
+            Date deadline = null;
+            Date completedAt = null;
+
+            try {
+                createdAt = dateFormat.parse(createdAtString);
+                if (deadlineString != null) {
+                    deadline = dateFormat.parse(deadlineString);
+                }
+                if (completedAtString != null) {
+                    completedAt = dateFormat.parse(completedAtString);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            task = new Task(taskId, groupId, taskName, createdAt, deadline, completedAt, description, imageUrl);
+            task.setNotifyWhen(notifyWhen);
+        }
+
+        cursor.close();
+        db.close();
+
+        return task;
+    }
+
+    public boolean updateTaskById(int taskId, String taskName, Date deadline, String description, String imageUrl, int notifyWhen) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("TaskName", taskName);
+        contentValues.put("Deadline", deadline != null ? dateFormat.format(deadline) : null);
+        contentValues.put("Description", description);
+        contentValues.put("ImageURL", imageUrl);
+        contentValues.put("NotifyWhen", notifyWhen);
+
+        String[] whereArgs = {String.valueOf(taskId)};
+        int rowsAffected = db.update("Task", contentValues, "TaskID=?", whereArgs);
+
+        db.close();
+
+        return rowsAffected > 0;
+    }
+
 }

@@ -1,64 +1,65 @@
 package com.example.taskmanagerment.models;
 
-public class Notification {
+import java.io.Serializable;
+import java.util.Date;
 
-    private int notificationId;
+public class Notification implements Serializable {
 
-    private int taskId;
+    private int id;
 
-    private String projectName;
+    private int taskID;
 
-    private String taskName;
+    private int projectID;
 
-    private String deadlineTime;
+    private String content;
+
+    private Date time;
+
+    private boolean isRead;
 
 
-    public Notification(int notificationId, int taskId, String projectName, String taskName, String deadlineTime) {
-        this.notificationId = notificationId;
-        this.taskId = taskId;
-        this.projectName = projectName;
-        this.taskName = taskName;
-        this.deadlineTime = deadlineTime;
+    public Notification(int id, String content, Date time, boolean isRead, int taskID, int projectID) {
+        this.id = id;
+        this.content = content;
+        this.time = time;
+        this.isRead = isRead;
+        this.taskID = taskID;
+        this.projectID = projectID;
     }
 
-    public int getNotificationId() {
-        return notificationId;
+    public int getId() {
+        return id;
     }
 
-    public void setNotificationId(int notificationId) {
-        this.notificationId = notificationId;
+    public String getContent() {
+        return content;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public Date getTime() {
+        return time;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public boolean isRead() {
+        return isRead;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public int getTaskID() {
+        return taskID;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public int getProjectID() {
+        return projectID;
     }
 
-    public String getDeadlineTime() {
-        return deadlineTime;
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
     }
-
-    public void setDeadlineTime(String deadlineTime) {
-        this.deadlineTime = deadlineTime;
-    }
-
 }
