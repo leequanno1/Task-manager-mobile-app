@@ -1,4 +1,4 @@
-package com.example.taskmanagerment.services;
+package com.example.taskmanagerment.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,9 +15,12 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanagerment.R;
+import com.example.taskmanagerment.adapter.TaskAdapter;
 import com.example.taskmanagerment.customlistview.TaskGroupViewHolder;
 import com.example.taskmanagerment.models.Task;
 import com.example.taskmanagerment.models.TaskGroup;
+import com.example.taskmanagerment.services.TaskGroupService;
+import com.example.taskmanagerment.services.TaskService;
 
 import java.util.ArrayList;
 import java.util.List;

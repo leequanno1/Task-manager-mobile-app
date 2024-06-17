@@ -8,12 +8,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.taskmanagerment.models.Tag;
 import com.example.taskmanagerment.models.TagBuilder;
-import com.example.taskmanagerment.services.ColorListViewAdapter;
+import com.example.taskmanagerment.adapter.ColorListViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

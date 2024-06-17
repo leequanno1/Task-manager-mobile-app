@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class NotificationService {
 
-    private DatabaseHelper databaseHelper;
+    private final DatabaseHelper databaseHelper;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
@@ -147,7 +147,7 @@ public class NotificationService {
         db.close();
     }
 
-    // Phương thức đánh dấu thông báo là chưa đọc đọc
+    // Phương thức đánh dấu thông báo là chưa đọc
     public void markAsUnRead(int notificationID) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 

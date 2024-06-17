@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskGroupService {
+
     private DatabaseHelper databaseHelper;
+
     private Context context;
 
     public TaskGroupService(Context context) {

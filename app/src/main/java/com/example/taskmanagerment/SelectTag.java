@@ -8,11 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.taskmanagerment.models.Tag;
 import com.example.taskmanagerment.models.TagList;
-import com.example.taskmanagerment.services.TagListViewAdapter;
+import com.example.taskmanagerment.adapter.TagListViewAdapter;
 import com.example.taskmanagerment.services.TagService;
 
 import java.util.ArrayList;

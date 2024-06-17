@@ -31,15 +31,13 @@ public class ProjectService {
     public long addProject(String projectName) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-        // Lấy thời gian hiện tại
-        String currentDateTime = getCurrentDateTime();
-
         ContentValues values = new ContentValues();
         values.put("ProjectName", projectName);
 //        values.put("CreatedAt", currentDateTime);
 
         long projectId = db.insert("Project", null, values);
         TaskGroupService taskGroupService = new TaskGroupService(context);
+
         taskGroupService.addTaskGroup((int) projectId, "Need to do");
         taskGroupService.addTaskGroup((int) projectId, "Doing");
         taskGroupService.addTaskGroup((int) projectId, "Finished");

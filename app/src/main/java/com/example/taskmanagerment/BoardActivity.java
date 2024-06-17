@@ -6,16 +6,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,13 +21,10 @@ import com.example.taskmanagerment.models.Task;
 import com.example.taskmanagerment.models.Project;
 import com.example.taskmanagerment.models.TaskGroup;
 import com.example.taskmanagerment.services.ProjectService;
-import com.example.taskmanagerment.services.TaskAdapter;
-import com.example.taskmanagerment.services.TaskGroupAdapter;
+import com.example.taskmanagerment.adapter.TaskGroupAdapter;
 import com.example.taskmanagerment.services.TaskGroupService;
 import com.example.taskmanagerment.services.TaskService;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BoardActivity extends AppCompatActivity {

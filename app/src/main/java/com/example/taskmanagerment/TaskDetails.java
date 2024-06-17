@@ -34,7 +34,6 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.taskmanagerment.broadcastreceivers.NotificationReceiver;
 import com.example.taskmanagerment.models.Tag;
@@ -43,7 +42,7 @@ import com.example.taskmanagerment.models.Task;
 import com.example.taskmanagerment.services.ImageUtils;
 import com.example.taskmanagerment.services.NotificationService;
 import com.example.taskmanagerment.services.ProjectService;
-import com.example.taskmanagerment.services.TagListAdapter;
+import com.example.taskmanagerment.adapter.TagListAdapter;
 import com.example.taskmanagerment.services.TagService;
 import com.example.taskmanagerment.services.TaskService;
 import com.example.taskmanagerment.services.TaskTagService;
@@ -55,7 +54,6 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import com.example.taskmanagerment.models.NotifyWhen;
 
@@ -133,6 +131,7 @@ public class TaskDetails extends AppCompatActivity {
         intent.putExtra("taskName", taskName);
         intent.putExtra("projectName", projectName);
         intent.putExtra("deadlineTimeFormatted", dateFormat(deadline));
+        intent.putExtra("notifyWhen", notifyWhen);
 
         // Data for save to the database
         String notificationContent = taskName + " in " + projectName + " has expired.";
@@ -141,6 +140,7 @@ public class TaskDetails extends AppCompatActivity {
         intent.putExtra("projectID", projectID);
         intent.putExtra("deadline", deadline);
         intent.putExtra("notificationContent", notificationContent);
+
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
                 requestCodeNotification++, intent, PendingIntent.FLAG_UPDATE_CURRENT);
