@@ -195,6 +195,11 @@ public class NotificationService {
         return rowsAffected > 0;
     }
 
-
+    // Phương thức xóa tất cả thông báo từ cơ sở dữ liệu
+    public void deleteAllNotifications() {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        db.delete("Notification", null, null);
+        db.close();
+    }
 
 }

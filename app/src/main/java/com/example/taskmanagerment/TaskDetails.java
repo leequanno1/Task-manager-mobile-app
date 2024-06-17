@@ -58,6 +58,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.example.taskmanagerment.models.NotifyWhen;
+
 import android.Manifest;
 
 public class TaskDetails extends AppCompatActivity {
@@ -115,9 +116,11 @@ public class TaskDetails extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSION_CODE);
             }
-        } else {
-            Toast.makeText(TaskDetails.this, "Granted", Toast.LENGTH_SHORT).show();
         }
+
+//        else {
+//            Toast.makeText(TaskDetails.this, "Granted", Toast.LENGTH_SHORT).show();
+//        }
 
 
     }
@@ -125,19 +128,19 @@ public class TaskDetails extends AppCompatActivity {
     // New for notify
     // Method to set the notification
     private void setNotification(Date deadline, int notifyWhen, String taskName, String projectName, int taskID, int projectID) {
-        NotificationService notificationService = new NotificationService(TaskDetails.this);
-
-        String notificationContent = taskName + " in " + projectName + " has expired.";
-        long notificationID = notificationService.addNotification(notificationContent, deadline, taskID, projectID);
-
         Intent intent = new Intent(this, NotificationReceiver.class);
+        // Content of notification
         intent.putExtra("taskName", taskName);
         intent.putExtra("projectName", projectName);
         intent.putExtra("deadlineTimeFormatted", dateFormat(deadline));
 
+        // Data for save to the database
+        String notificationContent = taskName + " in " + projectName + " has expired.";
+
         intent.putExtra("taskID", taskID);
         intent.putExtra("projectID", projectID);
-        intent.putExtra("notificationID", notificationID);
+        intent.putExtra("deadline", deadline);
+        intent.putExtra("notificationContent", notificationContent);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,
                 requestCodeNotification++, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -181,7 +184,7 @@ public class TaskDetails extends AppCompatActivity {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             }
 
-            Toast.makeText(this, "Notification set for " + dateFormat(calendar.getTime()), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Notification set for " + dateFormat(calendar.getTime()), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -199,7 +202,7 @@ public class TaskDetails extends AppCompatActivity {
             alarmManager.cancel(pendingIntent);
 
             // Inform user
-            Toast.makeText(this, "Notification cancelled", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Notification cancelled", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -314,10 +317,20 @@ public class TaskDetails extends AppCompatActivity {
         notifyContainer = findViewById(R.id.notifyContainer);
         addBackgroundImage = findViewById(R.id.addBackgroundImage);
         backgroundImage = findViewById(R.id.backgroundImage);
+
         registerResult();
         intent = getIntent();
         task = (Task) intent.getSerializableExtra("task");
         projectID = intent.getIntExtra("projectID", -1);
+
+        // Update status of notification is read
+        if (intent.getIntExtra("isNotification", -1) == 1) {
+            NotificationService notificationService = new NotificationService(TaskDetails.this);
+            int notificationID = intent.getIntExtra("notificationID", -1);
+//
+            notificationService.markAsRead(notificationID);
+        }
+
         // query get selected tag list by taskID
         // ->
         tagService = new TagService(TaskDetails.this);
@@ -415,7 +428,6 @@ public class TaskDetails extends AppCompatActivity {
         taskDetailCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                finish();
                 Intent intent = new Intent(TaskDetails.this, BoardActivity.class);
                 Bundle bundle = new Bundle();
                 ProjectService projectService = new ProjectService(TaskDetails.this);
@@ -440,9 +452,9 @@ public class TaskDetails extends AppCompatActivity {
                 setResult(RESULT_OK, intent);
 
                 // Setup notification
-                if (chkIsCompleted.isChecked() && deadlineTime.getText().toString().isEmpty()) {
-                    return;
-                }
+//                if (chkIsCompleted.isChecked() && deadlineTime.getText().toString().isEmpty()) {
+//                    return;
+//                }
 
                 ProjectService projectService = new ProjectService(TaskDetails.this);
                 String projectName = projectService.getProjectNameById(projectID);
@@ -454,17 +466,25 @@ public class TaskDetails extends AppCompatActivity {
                     setNotification(task.getDeadline(), positionOfNotificationType, task.getTaskName(), projectName, task.getTaskID(), projectID);
                 }
 
-//                finish();
-                Intent intent = new Intent(TaskDetails.this, BoardActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("selectedProject", projectService.getProjectByID(projectID));
 
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
+                if (intent.getIntExtra("isNotification", -1) == -1) {
+//                    Toast.makeText(TaskDetails.this, "Hello", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+
+                    Intent intent = new Intent(TaskDetails.this, BoardActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("selectedProject", projectService.getProjectByID(projectID));
+
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                }
+
             }
         });
 
         addBackgroundImage.setOnClickListener(view -> pickImage());
         backgroundImage.setOnClickListener(view -> pickImage());
+
     }
 }

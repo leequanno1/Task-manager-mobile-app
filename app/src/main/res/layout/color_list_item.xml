@@ -1,47 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingHorizontal="10dp"
-    android:paddingVertical="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="10dp"
     app:cardElevation="8dp">
+
     <androidx.cardview.widget.CardView
         android:layout_width="60dp"
         android:layout_height="60dp"
         app:cardCornerRadius="20dp">
+
         <View
             android:id="@+id/colorBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ccc"/>
+            android:scaleY="0.75"
+            android:scaleX="0.75"
+            android:background="#ccc" />
     </androidx.cardview.widget.CardView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="60dp"
         android:paddingLeft="15dp">
+
         <TextView
             android:id="@+id/colorName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25dp"
-            android:text="Text 1"
-            android:checked="true"
             android:checkMarkTint="@color/black"
-            android:gravity="center_vertical"/>
+            android:checked="true"
+            android:gravity="center_vertical"
+            android:text="Text 1"
+            android:textSize="20sp" />
 
         <CheckBox
             android:id="@+id/chkColorSelected"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
             android:checked="true"
-            android:visibility="invisible"
-            />
+            android:visibility="gone" />
     </RelativeLayout>
 </RelativeLayout>

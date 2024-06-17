@@ -27,12 +27,18 @@ import java.util.List;
 public class NotificationActivity extends AppCompatActivity {
 
     // Declare components.
-    private ImageView closeButton, markAllAsRead, allowNotify;
+    private ImageView closeButton, markAllAsRead, allowNotify, deleteAllNotification;
+
     private ListView notificationItemListView;
+
     private TextView notificationID, taskID;
+
     private CheckBox checkBoxFilterNotRead;
+
     private CustomNotificationAdapter adapter;
+
     private List<Notification> notifications;
+
     private NotificationService notificationService;
 
     @Override
@@ -124,9 +130,20 @@ public class NotificationActivity extends AppCompatActivity {
                 Intent intent = new Intent(NotificationActivity.this, TaskDetails.class);
                 intent.putExtra("task", taskService.getTaskById(selectedNotification.getTaskID()));
                 intent.putExtra("projectID", selectedNotification.getProjectID());
+                intent.putExtra("isListNotificationToTaskDetail", 1);
 
                 startActivity(intent);
             }
+        });
+
+        deleteAllNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               notificationService.deleteAllNotifications();
+                notifications = notificationService.getAllNotifications();
+                updateNotifyListView();
+            }
+
         });
     }
 
@@ -135,6 +152,7 @@ public class NotificationActivity extends AppCompatActivity {
         closeButton = (ImageView) findViewById(R.id.close_button);
         markAllAsRead = (ImageView) findViewById(R.id.mark_all_as_read);
         allowNotify = (ImageView) findViewById(R.id.allow_notify);
+        deleteAllNotification = (ImageView) findViewById(R.id.delete_all_notification);
         notificationItemListView = (ListView) findViewById(R.id.notification_item_listView);
         checkBoxFilterNotRead = (CheckBox) findViewById(R.id.check_box_filter_not_read);
 
@@ -183,4 +201,5 @@ public class NotificationActivity extends AppCompatActivity {
 
         return true;
     }
+
 }

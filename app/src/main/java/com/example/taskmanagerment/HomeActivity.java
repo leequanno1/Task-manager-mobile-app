@@ -26,6 +26,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final int CREATE_PROJECT_REQUEST_CODE = 1;
 
+    private static final int CREATE_TASK_REQUEST_CODE = 2;
+
     // Declare components.
     private ImageView searchHomeButton, notificationHomeButton, createNewBoardOrTaskButton;
 
@@ -122,8 +124,14 @@ public class HomeActivity extends AppCompatActivity {
         homeTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (projects.isEmpty()) {
+                    Toast.makeText(HomeActivity.this, "Please create new project before add task", Toast.LENGTH_SHORT).show();
+                    refreshHomeView();
+                    return;
+                }
+
                 Intent intent = new Intent(HomeActivity.this, CreateNewTaskActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_TASK_REQUEST_CODE);
             }
         });
 
@@ -202,7 +210,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CREATE_PROJECT_REQUEST_CODE && resultCode == RESULT_OK) {
+        if ((requestCode == CREATE_PROJECT_REQUEST_CODE || requestCode == CREATE_TASK_REQUEST_CODE) && resultCode == RESULT_OK) {
             refreshHomeView();
             updateProjectData();
         }

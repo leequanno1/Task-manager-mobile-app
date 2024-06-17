@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Task Managerment</string>
-    <string name="begin_day">Ngày bắt đầu...</string>
-    <string name="deadline_day">Ngày hết hạn...</string>
+    <string name="begin_day">Start day...</string>
+    <string name="deadline_day">End date...</string>
     <string-array name="notify_at">
-        <item>Không thông báo</item>
-        <item>Trước 1 ngày</item>
-        <item>Trước 1 tiếng</item>
-        <item>Trước 30 phút</item>
-        <item>Trước 15 phút</item>
-        <item>Trước 10 phút</item>
-        <item>Trước 5 phút</item>
-        <item>Tại lúc đến hạn</item>
+        <item>No notification</item>
+        <item>1 day before</item>
+        <item>1 hour ago</item>
+        <item>30 minutes before</item>
+        <item>15 minutes ago</item>
+        <item>10 minutes ago</item>
+        <item>5 minutes ago</item>
+        <item>At due date</item>
     </string-array>
     <string-array name="color_list">
         <item>#aaaaaa</item>

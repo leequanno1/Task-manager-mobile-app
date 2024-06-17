@@ -179,7 +179,13 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
                             TaskGroupService taskGroupService = new TaskGroupService(context);
                             taskGroupService.deleteTaskGroup(groups.get(position).getGroupId());
 
+//                            List<TaskGroup> groupsClone = new ArrayList<>(groups);
+//                            groupsClone.remove(position);
+//                            groups.clear();
+//                            groups.addAll(groupsClone);
+
                             groups.remove(position);
+
                             notifyDataSetChanged();
                         }
                         return true;
@@ -194,7 +200,7 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
 
     @Override
     public int getItemCount() {
-        return groups.size() + 1;
+        return getGroupSize() + 1;
     }
 
     public int getSelectedTaskID() {
@@ -203,6 +209,10 @@ public class TaskGroupAdapter extends RecyclerView.Adapter<TaskGroupViewHolder> 
 
     public int getSelectedGroupID() {
         return selectedGroupID;
+    }
+
+    private int getGroupSize() {
+        return groups.size();
     }
 
 

@@ -39,6 +39,11 @@ public class ProjectService {
 //        values.put("CreatedAt", currentDateTime);
 
         long projectId = db.insert("Project", null, values);
+        TaskGroupService taskGroupService = new TaskGroupService(context);
+        taskGroupService.addTaskGroup((int) projectId, "Need to do");
+        taskGroupService.addTaskGroup((int) projectId, "Doing");
+        taskGroupService.addTaskGroup((int) projectId, "Finished");
+
         db.close();
         return projectId;
     }
@@ -152,7 +157,6 @@ public class ProjectService {
 
         return project;
     }
-
 
 
     public boolean isProjectNameExists(String projectName) {

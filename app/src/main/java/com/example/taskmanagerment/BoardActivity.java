@@ -37,6 +37,7 @@ import java.util.List;
 public class BoardActivity extends AppCompatActivity {
 
     public static final int MODIFY_TASK_REQUEST = 1;
+
     private ImageView goBackButton, moreOptionsButtonOfBoard, notificationButtonOfBoard;
 
     private ImageView filterButtonOfBoard, confirmEditTitleName, closeEnterTitleName;
@@ -102,7 +103,6 @@ public class BoardActivity extends AppCompatActivity {
                     goBackButton.setVisibility(View.GONE);
                     filterButtonOfBoard.setVisibility(View.GONE);
                     notificationButtonOfBoard.setVisibility(View.GONE);
-                    moreOptionsButtonOfBoard.setVisibility(View.GONE);
 
                     projectTitleEdt.post(new Runnable() {
                         @Override
@@ -126,7 +126,6 @@ public class BoardActivity extends AppCompatActivity {
                 goBackButton.setVisibility(View.VISIBLE);
                 filterButtonOfBoard.setVisibility(View.VISIBLE);
                 notificationButtonOfBoard.setVisibility(View.VISIBLE);
-                moreOptionsButtonOfBoard.setVisibility(View.VISIBLE);
 
                 // Đảm bảo EditText có thể lấy lại tiêu điểm
                 projectTitleEdt.setFocusable(false);
@@ -170,7 +169,6 @@ public class BoardActivity extends AppCompatActivity {
                         goBackButton.setVisibility(View.VISIBLE);
                         filterButtonOfBoard.setVisibility(View.VISIBLE);
                         notificationButtonOfBoard.setVisibility(View.VISIBLE);
-                        moreOptionsButtonOfBoard.setVisibility(View.VISIBLE);
 
                         projectTitleEdt.setFocusable(false);
                     }
@@ -229,7 +227,6 @@ public class BoardActivity extends AppCompatActivity {
 
     private void initialComponents() {
         goBackButton = (ImageView) findViewById(R.id.go_back_button);
-        moreOptionsButtonOfBoard = (ImageView) findViewById(R.id.more_options_button_of_board);
         notificationButtonOfBoard = (ImageView) findViewById(R.id.notification_button_of_board);
         filterButtonOfBoard = (ImageView) findViewById(R.id.filter_button_of_board);
         confirmEditTitleName = (ImageView) findViewById(R.id.confirm_edit_title_name);

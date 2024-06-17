@@ -73,25 +73,11 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/more_options_button_of_board"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="8dp"
-            android:src="@drawable/baseline_more_vert_24"
-            android:tooltipText="More options"
-            app:tint="@color/white" />
-
-        <ImageView
             android:id="@+id/notification_button_of_board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
@@ -105,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
@@ -145,11 +131,11 @@
         app:layout_constraintTop_toBottomOf="@id/board_toolbar">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
             android:id="@+id/groupHorizontalRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             tools:listitem="@layout/task_group" />
 

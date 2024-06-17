@@ -23,6 +23,7 @@
             android:id="@+id/toolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageButton
                 android:id="@+id/rollBack"
                 android:layout_width="40dp"
@@ -31,35 +32,30 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/baseline_keyboard_backspace"
-                android:scaleY="1.5"
-                android:scaleX="1.5"/>
+                android:src="@drawable/baseline_keyboard_backspace" />
 
             <ImageButton
                 android:id="@+id/delete"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginRight="70dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="70dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/baseline_clear"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
                 app:tint="@color/danger" />
+
             <ImageButton
                 android:id="@+id/confirm"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginRight="20dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/baseline_check"
-                android:scaleX="1.5"
-                android:scaleY="1.5"/>
+                android:src="@drawable/baseline_check" />
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -80,7 +76,7 @@
             android:layout_weight="1"
             android:paddingLeft="20dp"
             android:paddingBottom="10dp"
-            android:text="Tên thẻ (không bắt buộc)"
+            android:text="Name tag (optional)"
             android:textSize="18dp" />
 
         <EditText
@@ -94,7 +90,7 @@
             android:clickable="true"
             android:ems="10"
             android:focusable="true"
-            android:hint="..."
+            android:hint="Please enter name tag"
             android:inputType="text"
             android:paddingLeft="20dp"
             android:textSize="20dp" />
@@ -107,7 +103,7 @@
         android:layout_weight="1"
         android:paddingLeft="20dp"
         android:paddingBottom="10dp"
-        android:text="Màu sắc"
+        android:text="Color"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -123,7 +119,7 @@
         android:backgroundTint="@color/white"
         android:clickable="true"
         android:focusable="true"
-        android:textSize="20dp"
+        android:textSize="16sp"
         app:layout_constraintBaseline_toBottomOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -85,6 +86,10 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     performSearch();
+                    if (projects.isEmpty()) {
+                        Toast.makeText(SearchActivity.this, "No matching results were found", Toast.LENGTH_SHORT).show();
+                    }
+
                     return true;
                 }
                 return false;
@@ -120,9 +125,9 @@ public class SearchActivity extends AppCompatActivity {
     private void performSearch() {
         String searchTerm = searchEditText.getText().toString();
         if (!searchTerm.isEmpty()) {
-            List<Project> searchResults = projectService.getProjectsByName(searchTerm);
+            projects = projectService.getProjectsByName(searchTerm);
             adapter.clear();
-            adapter.addAll(searchResults);
+            adapter.addAll(projects);
             adapter.notifyDataSetChanged();
         }
     }

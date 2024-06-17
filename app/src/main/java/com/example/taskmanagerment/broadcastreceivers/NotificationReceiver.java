@@ -18,6 +18,8 @@ import com.example.taskmanagerment.models.Task;
 import com.example.taskmanagerment.services.NotificationService;
 import com.example.taskmanagerment.services.TaskService;
 
+import java.util.Date;
+
 public class NotificationReceiver extends BroadcastReceiver {
 
     private static final String CHANNEL_ID = "Channel_ID";
@@ -34,13 +36,18 @@ public class NotificationReceiver extends BroadcastReceiver {
         Intent resultIntent = new Intent(context, TaskDetails.class);
         TaskService taskService = new TaskService(context);
         NotificationService notificationService = new NotificationService(context);
-        int taskID = intent.getIntExtra("taskID", 0);
-        int notificationID = (int) intent.getLongExtra("notificationID", 0);
 
-        notificationService.markAsRead(notificationID);
+        int taskID = intent.getIntExtra("taskID", 0);
+        int projectID = intent.getIntExtra("projectID", 0);
+        Date deadline = (Date) intent.getSerializableExtra("deadline");
+        String notificationContent = intent.getStringExtra("notificationContent");
+
+        int notificationID = (int) notificationService.addNotification(notificationContent, deadline, taskID, projectID);
 
         resultIntent.putExtra("task", taskService.getTaskById(taskID));
         resultIntent.putExtra("projectID", intent.getIntExtra("projectID", -1));
+        resultIntent.putExtra("isNotification", 1);
+        resultIntent.putExtra("notificationID", notificationID);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context,

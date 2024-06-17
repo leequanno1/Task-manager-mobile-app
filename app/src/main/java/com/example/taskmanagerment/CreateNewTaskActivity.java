@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -38,7 +39,7 @@ public class CreateNewTaskActivity extends AppCompatActivity {
 
     private ConstraintLayout containBoardName, containListName;
 
-    private TextView  startDateTextView, endDateTextView;
+    private TextView startDateTextView, endDateTextView;
 
     private Spinner boardNameSpinner, listNameSpinner;
 
@@ -51,6 +52,7 @@ public class CreateNewTaskActivity extends AppCompatActivity {
     private TaskService taskService;
 
     private List<Project> projectList;
+
     private List<TaskGroup> taskGroupList;
 
     private Task task;
@@ -63,11 +65,12 @@ public class CreateNewTaskActivity extends AppCompatActivity {
         // Call method to initial components.
         initialComponents();
         projectList = projectService.getAllProjects();
+
         ArrayAdapter<Project> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, projectList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         boardNameSpinner.setAdapter(adapter);
 
-        if(projectList.size() > 0) {
+        if (projectList.size() > 0) {
             taskGroupList = taskGroupService.getTaskGroupsByProjectId(projectList.get(0).getProjectId());
         } else {
             taskGroupList = new ArrayList<>();
@@ -76,7 +79,9 @@ public class CreateNewTaskActivity extends AppCompatActivity {
         groupArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         listNameSpinner.setAdapter(groupArrayAdapter);
 
-        task.setGroupID(taskGroupList.get(0).getGroupId());
+        if (!taskGroupList.isEmpty()) {
+            task.setGroupID(taskGroupList.get(0).getGroupId());
+        }
 
         boardNameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -85,7 +90,7 @@ public class CreateNewTaskActivity extends AppCompatActivity {
                 ArrayAdapter<TaskGroup> groupArrayAdapter = new ArrayAdapter<>(CreateNewTaskActivity.this, android.R.layout.simple_spinner_item, taskGroupList);
                 groupArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 listNameSpinner.setAdapter(groupArrayAdapter);
-                if(taskGroupList.size() > 0) {
+                if (taskGroupList.size() > 0) {
                     task.setGroupID(taskGroupList.get(0).getGroupId());
                 }
             }
@@ -123,47 +128,34 @@ public class CreateNewTaskActivity extends AppCompatActivity {
             public void onClick(View view) {
                 task.setTaskName(taskNameEdt.getText().toString());
                 task.setDescription(desciptionEdt.getText().toString());
-                if(task.getGroupID() == -1) {
+                if (task.getGroupID() == -1) {
                     DialogUtils.showAlertDialog(CreateNewTaskActivity.this, "Please chose valid group.");
                     return;
                 }
-                if(taskGroupList.size() == 0) {
+                if (taskGroupList.size() == 0) {
                     DialogUtils.showAlertDialog(CreateNewTaskActivity.this, "This project has no group.\nPlease chose another group.");
                     return;
                 }
-                if(taskNameEdt.getText().toString().isEmpty()){
+                if (taskNameEdt.getText().toString().isEmpty()) {
                     DialogUtils.showAlertDialog(CreateNewTaskActivity.this, "Please enter task name before submit.");
                     return;
                 }
                 taskService.addTask(task);
+
+                setResult(RESULT_OK);
+
                 finish();
             }
         });
 
-        // Show context menu for contain board nam view
-//        containBoardName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openContextMenu(containBoardName);
-//            }
-//        });
-//
-//        // Show context menu for contain list name.
-//        containListName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openContextMenu(containListName);
-//            }
-//        });
-
         startDateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(((TextView)view).getText().toString().isEmpty()) {
+                if (((TextView) view).getText().toString().isEmpty()) {
                     task.setCreatedAt(new Date());
-                    ((TextView)view).setText(dateFormat(task.getCreatedAt()));
-                }else {
-                    task.setCreatedAt(openDateDialog((TextView)view));
+                    ((TextView) view).setText(dateFormat(task.getCreatedAt()));
+                } else {
+                    task.setCreatedAt(openDateDialog((TextView) view));
                 }
             }
         });
